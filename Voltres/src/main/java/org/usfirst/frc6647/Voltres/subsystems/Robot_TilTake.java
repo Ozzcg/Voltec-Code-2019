@@ -21,16 +21,16 @@ import edu.wpi.first.wpilibj.PIDSource;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
-public class TilTake extends Subsystem {
+public class Robot_TilTake extends Subsystem {
 
     private static int direction1 = 1;
     private static int direction2 = -1;
-    private static double tilt_up_speed = 0.1;
-    private static double tilt_down_speed = 0.1;
+    private static double tilt_up_speed = .8;
+    private static double tilt_down_speed = 0.6;
     private static WPI_VictorSPX tilTake;
 
 
-    public TilTake() {
+    public Robot_TilTake() {
         tilTake = RobotMap.tilTake;
     }
 

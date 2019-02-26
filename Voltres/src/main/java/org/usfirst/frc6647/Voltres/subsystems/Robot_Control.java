@@ -5,9 +5,9 @@ import org.usfirst.frc6647.Voltres.RobotMap;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.Compressor;
 
-public class CompControl extends Subsystem {
+public class Robot_Control extends Subsystem {
 
-    public CompControl() {
+    public Robot_Control() {
         
     }
     
@@ -21,7 +21,7 @@ public class CompControl extends Subsystem {
     }
     
     public void turnCompressorOn() {
-    	compressor.setClosedLoopControl(true);
+        compressor.setClosedLoopControl(true);
     }
     
     public void turnCompressorOff() {

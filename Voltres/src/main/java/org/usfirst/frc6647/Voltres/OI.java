@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-import org.usfirst.frc6647.Voltres.subsystems.*;
+//import org.usfirst.frc6647.Voltres.subsystems.*;
 
 
 /**
@@ -124,16 +124,16 @@ public class OI {
         Button14  = new JoystickButton(joystick1, 14);
         Button13  = new JoystickButton(joystick1, 13);
 
-        Button7.whenPressed(new BallIn());
-        Button8.whenPressed(new BallOut());
-        Button3.whenPressed(new LatchH());
-        Button4.whenPressed(new TilTakeUpManual());
-        Button2.whenPressed(new TilTakeDownManual());
-        Button6.whenPressed(new LiftUpManual());
-        Button5.whenPressed(new LiftDownManual());
-        Button1.whenPressed(new HAB3());
-        Button14.whenPressed(new MoveFrontHAB());
-        Button13.whenPressed(new MoveBackHAB());
+        Button7.whileHeld(new BallIn());
+        Button8.whileHeld(new BallOut());
+        Button3.whileHeld(new LatchH());
+        Button4.whileHeld(new TilTakeUpManual());
+        Button2.whileHeld(new TilTakeDownManual());
+        Button6.whileHeld(new LiftUpManual());
+        Button5.whileHeld(new LiftDownManual());
+        Button1.whileHeld(new HAB3());
+        Button14.whileHeld(new MoveFrontHAB());
+        Button13.whileHeld(new MoveBackHAB());
 
     }
 

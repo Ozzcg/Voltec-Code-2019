@@ -19,20 +19,31 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 
+
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 
-public class Lift extends Subsystem {
+public class Robot_Lift extends Subsystem {
 
     private static int direction1 = 1;
     private static int direction2 = -1;
-    private static double lift_up_speed = 0.7;
-    private static double lift_down_speed = 0.7;
-    private static WPI_VictorSPX liftMain;
+    private static double lift_up_speed = 0.8;
+    private static double lift_down_speed = 0.8;
+    private static Encoder lift_Encoder;
 
-    public Lift() {
+    private static WPI_TalonSRX liftMain;
+    /*
+    private static WPI_VictorSPX liftMain;
+    */
+
+    public Robot_Lift() {
         liftMain = RobotMap.liftMain;
+        lift_Encoder = RobotMap.liftEncoder;
     }
 
     @Override
@@ -51,7 +62,7 @@ public class Lift extends Subsystem {
     @Override
     public void periodic() {
         // Put code here to be run every loop
-
+        SmartDashboard.putNumber("Lift Encoder Value", lift_Encoder.get());
     }
 
    public void Stop_Lift(){

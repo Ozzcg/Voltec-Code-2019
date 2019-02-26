@@ -24,7 +24,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 
 
 
-public class Intake extends Subsystem {
+public class Robot_Intake extends Subsystem {
 
     private static int direction1 = 1;
     private static int direction2 = -1;
@@ -35,7 +35,7 @@ public class Intake extends Subsystem {
     private static DoubleSolenoid H;
     private static double statepiston=1;
 
-    public Intake() {
+    public Robot_Intake() {
         intakeLeft = RobotMap.intakeLeft;
         intakeRight = RobotMap.intakeRight;
         H = RobotMap.cylinderH;
@@ -49,10 +49,12 @@ public class Intake extends Subsystem {
 
     public void Ball_In(){
         intakeLeft.set(ControlMode.PercentOutput, speed_in*direction1);
+        intakeRight.set(ControlMode.PercentOutput, speed_in*direction1);
     }
 
     public void Ball_Out(){
         intakeLeft.set(ControlMode.PercentOutput, speed_out*direction2);
+        intakeRight.set(ControlMode.PercentOutput, speed_out*direction2);
     }
 
     public void Control_H(){

@@ -21,39 +21,55 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.drive.*;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
-public class DriveTrain extends Subsystem {
+public class Robot_Drive extends Subsystem {
 
     private static final double TOLERANCE=0.15;  //tolerancia del joystick(quita el error)
-	private static final double LIMITER=0.9;  //Por si quieren limitar la velocidad del drive
+	private static final double LIMITER=0.8;  //Por si quieren limitar la velocidad del drive
     private static int direction = 1;  //para invertir los ejes si necesario
     private static WPI_TalonSRX lefTalon;
     private static WPI_TalonSRX righTalon;
     private static WPI_TalonSRX hWheel;
-    private static DoubleSolenoid frontCylinder;
-    private static DoubleSolenoid backCylinder;
-    private static DifferentialDrive differentialDrive;
+    private static Solenoid frontCylinderRev;
+    private static Solenoid frontCylinderFwd;
+    private static Solenoid backCylinderRev;
+    private static Solenoid backCylinderFwd;
+
+    private static WPI_TalonSRX cylWheel;
+    /*
     private static WPI_VictorSPX cylWheel;
+    */
 
 
-    private static double statepiston=1;
+    private static DifferentialDrive diffDrive;
 
-    public DriveTrain() {
+
+    //private static double statepiston=1;
+
+    public Robot_Drive() {
 
         lefTalon = RobotMap.frontLeft;
         righTalon = RobotMap.frontRight;
-        differentialDrive = new DifferentialDrive(lefTalon, righTalon);
+
+        diffDrive = new DifferentialDrive( lefTalon, righTalon);
+
         cylWheel = RobotMap.cylinderWheels;
 
-        frontCylinder = RobotMap.frontCylinder;
-        backCylinder = RobotMap.backCylinder;
+        frontCylinderFwd = RobotMap.frontCylinderFoward;
+        frontCylinderRev = RobotMap.frontCylinderReverse;
+        backCylinderFwd = RobotMap.backCylinderFoward;
+        backCylinderRev = RobotMap.backCylinderReverse;
 
         hWheel = RobotMap.hWheel;
+
+        //diffDrive.setRightSideInverted(false);
+        //diffDrive.setExpiration(0.02);
+		//diffDrive.setSafetyEnabled(false);
 
     }
 
@@ -65,15 +81,23 @@ public class DriveTrain extends Subsystem {
     public void Main_Drive(){
         Joystick joystick = Robot.oi.joystick1;
 
-        double  LeftStickY=mapDoubleT(joystick.getRawAxis(1),TOLERANCE,1,0,1)*direction*-1, 
-                LeftStickX=mapDoubleT(joystick.getRawAxis(0),TOLERANCE,1,0,1)*direction,
+        double  LeftStickY=mapDoubleT(joystick.getRawAxis(0),TOLERANCE,1,0,1)*direction*-1, 
+                LeftStickX=mapDoubleT(joystick.getRawAxis(1),TOLERANCE,1,0,1)*direction,
                 RightStickX=mapDoubleT(joystick.getRawAxis(2), TOLERANCE, 1, 0, 1)*direction;
 
-        differentialDrive.arcadeDrive(LeftStickY*LIMITER, LeftStickX*LIMITER);
+        diffDrive.arcadeDrive(LeftStickY*LIMITER, LeftStickX*LIMITER);
         hWheel.set(ControlMode.PercentOutput, RightStickX);
 
         SmartDashboard.putNumber("EncoderL chassis", lefTalon.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("EncoderR chassis", righTalon.getSelectedSensorPosition(0));
+    }
+
+    public double getSensorL(){
+        return lefTalon.getSelectedSensorPosition(0);
+    }
+
+    public double getSensorR(){
+        return righTalon.getSelectedSensorPosition(0);
     }
 
     private double mapDoubleT(double x, double in_min, double in_max, double out_min, double out_max)
@@ -93,23 +117,35 @@ public class DriveTrain extends Subsystem {
     }
     
     public void HAB_Control(){
+        /*
         if(statepiston==1) {
 			HAB_Up();
 			statepiston=statepiston*-1;
 		}else {
 			HAB_Down();
 			statepiston=statepiston*-1;
-		}
+        }
+        */
     }
 
-    public void HAB_Up(){
-        frontCylinder.set(DoubleSolenoid.Value.kForward);
-        backCylinder.set(DoubleSolenoid.Value.kForward);
+    public void HABFront_Up(){
+        frontCylinderFwd.set(true);
+        frontCylinderRev.set(false);
     }
 
-    public void HAB_Down(){
-        frontCylinder.set(DoubleSolenoid.Value.kReverse);
-        backCylinder.set(DoubleSolenoid.Value.kReverse);
+    public void HABFront_Down(){
+        frontCylinderFwd.set(false);
+        frontCylinderRev.set(true);
+    }
+
+    public void HABBack_Up(){
+        backCylinderFwd.set(true);
+        backCylinderRev.set(false);
+    }
+
+    public void HABBack_Down(){
+        backCylinderFwd.set(false);
+        backCylinderRev.set(true);
     }
 
     public void HAB_Front(){
@@ -123,7 +159,8 @@ public class DriveTrain extends Subsystem {
     @Override
     public void periodic() {
         // Put code here to be run every loop
-
+        SmartDashboard.putNumber("EncoderL chassis", lefTalon.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("EncoderR chassis", righTalon.getSelectedSensorPosition(0));
     }
 
     public void Stop_Drive(){

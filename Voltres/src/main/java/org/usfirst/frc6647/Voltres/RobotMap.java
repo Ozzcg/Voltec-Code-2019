@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Servo;
@@ -33,13 +34,18 @@ public class RobotMap{
 
     private static final int TALON_H_WHEEL_PORT = 3;                    //TALON H WHEEL
 
+    //Talon en chasis de prueba
     private static final int VICTOR_CYLINDER_WHEELS_PORT = 11;          //WHEELS VICTOR
 
     private static final int VICTOR_INTAKE_MOTOR_RIGHT = 1;             //INTAKE VICTOR LEFT
     private static final int VICTOR_INTAKE_MOTOR_LEFT = 5;              //INTAKE VICTOR LEFT
-        
+     
+    //////////////////////////////////
     private static final int VICTOR_LIFT_MOTOR_ENCODER_PORT = 9;        //LIFT VICTOR ENCODER 
     private static final int VICTOR_LIFT_MOTOR_FOLLOWER_PORT = 10;      //LIFT VICTOR FOLLOWER
+    ////Talons en Chasis de prueba////
+
+
 
     private static final int VICTOR_TILTAKE_PORT = 12;                   //TILTAKE VICTOR
 
@@ -48,18 +54,18 @@ public class RobotMap{
 	
     ////////////////////////////NUMERO DE LOS INPUTS DIGITALES///////////////////////////////
     
-	private static final int DI_LIFT_LIMIT_DOWN_PORT = 0;	            //LIFT DOWN
-    private static final int DI_LIFT_LIMIT_UP_PORT = 1; 	            //LIFT UP
+	private static final int DI_LIFT_LIMIT_DOWN_PORT = 1;	            //LIFT DOWN
+    private static final int DI_LIFT_LIMIT_UP_PORT = 2; 	            //LIFT UP
     
-    private static final int DI_TILTAKE_LIMIT_DOWN_PORT = 2;	        //TILTAKE DOWN
-    private static final int DI_TILTAKE_LIMIT_UP_PORT = 3;	            //TILTAKE UP
+    private static final int DI_TILTAKE_LIMIT_DOWN_PORT = 3;	        //TILTAKE DOWN
+    private static final int DI_TILTAKE_LIMIT_UP_PORT = 4;	            //TILTAKE UP
 
-    private static final int DI_BALL_PRESENT_PORT = 4;	                //BALL PRESENT
+    private static final int DI_BALL_PRESENT_PORT = 5;	                //BALL PRESENT
 
-    private static final int DI_ENCODER_A_CHANNEL = 5;                  //A CHANNEL PORT
-    private static final int DI_ENCODER_B_CHANNEL = 6;                  //B CHANNEL PORT
+    private static final int DI_ENCODER_A_CHANNEL = 6;                  //A CHANNEL PORT
+    private static final int DI_ENCODER_B_CHANNEL = 7;                  //B CHANNEL PORT
 
-    private static final int DI_ULTRASONIC_REC = 7;                     //ULTRASONIC RECEIVE
+    private static final int DI_ULTRASONIC_REC = 8;                     //ULTRASONIC RECEIVE
 
     /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -105,10 +111,16 @@ public class RobotMap{
 
     public static Ultrasonic ultrasense;
 
-    public static DoubleSolenoid frontCylinder;
-    public static DoubleSolenoid backCylinder;
+    public static Solenoid frontCylinderFoward;
+    public static Solenoid frontCylinderReverse;
+    public static Solenoid backCylinderFoward;
+    public static Solenoid backCylinderReverse;
 
+    ////////////////////
+    public static WPI_TalonSRX cylinderWheels;
+    /*
     public static WPI_VictorSPX cylinderWheels;
+    */
 
 	public static PowerDistributionPanel pdp;
     public static Compressor Compressor;
@@ -143,8 +155,12 @@ public class RobotMap{
     
     //////////////////////////////////////////LIFT////////////////////////////////////////////
 
+    public static WPI_TalonSRX liftMain;
+    public static WPI_TalonSRX liftFollower;
+    /*
     public static WPI_VictorSPX liftMain;
     public static WPI_VictorSPX liftFollower;
+    */
 
     public static Encoder liftEncoder;
 
@@ -167,7 +183,10 @@ public class RobotMap{
 
         hWheel = new WPI_TalonSRX(TALON_H_WHEEL_PORT);
 
+        cylinderWheels = new WPI_TalonSRX(VICTOR_CYLINDER_WHEELS_PORT);
+        /*
         cylinderWheels = new WPI_VictorSPX(VICTOR_CYLINDER_WHEELS_PORT);
+        */
             
         frontLeft.setInverted(true);
         backLeft.setInverted(true);
@@ -221,11 +240,15 @@ public class RobotMap{
         backLeft.set(ControlMode.Follower,TALON_FRONT_LEFT_CHASSIS_PORT);
         backRight.set(ControlMode.Follower,TALON_FRONT_RIGHT_CHASSIS_PORT);
         
-        frontCylinder = new DoubleSolenoid(SOL_FORWARD_FRONTCYLINDER_PORT, SOL_REVERSE_FRONTCYLINDER_PORT);
-        backCylinder = new DoubleSolenoid(SOL_FORWARD_BACKCYLINDER_PORT, SOL_REVERSE_BACKCYLINDER_PORT);
+        frontCylinderFoward = new Solenoid(SOL_FORWARD_FRONTCYLINDER_PORT);
+        frontCylinderReverse = new Solenoid(SOL_REVERSE_FRONTCYLINDER_PORT);
+        backCylinderFoward = new Solenoid(SOL_FORWARD_BACKCYLINDER_PORT);
+        backCylinderReverse = new Solenoid(SOL_REVERSE_BACKCYLINDER_PORT);
 
-        frontCylinder.set(DoubleSolenoid.Value.kReverse);
-        backCylinder.set(DoubleSolenoid.Value.kReverse);
+        frontCylinderFoward.set(false);
+        frontCylinderReverse.set(false);
+        backCylinderFoward.set(false);
+        backCylinderReverse.set(false);
 
         ultrasense = new Ultrasonic(DO_ULTRASONIC_SEND, DI_ULTRASONIC_REC);
 
@@ -285,8 +308,12 @@ public class RobotMap{
             
         //////////////////////////////////////////LIFT////////////////////////////////////////////
         
+        liftMain = new WPI_TalonSRX(VICTOR_LIFT_MOTOR_ENCODER_PORT);
+        liftFollower = new WPI_TalonSRX(VICTOR_LIFT_MOTOR_FOLLOWER_PORT);
+        /*
         liftMain = new WPI_VictorSPX(VICTOR_LIFT_MOTOR_ENCODER_PORT);
         liftFollower = new WPI_VictorSPX(VICTOR_LIFT_MOTOR_FOLLOWER_PORT);
+        */
 
         lowLimitLift = new DigitalInput(DI_LIFT_LIMIT_DOWN_PORT);
         topLimitLift = new DigitalInput(DI_LIFT_LIMIT_UP_PORT);
