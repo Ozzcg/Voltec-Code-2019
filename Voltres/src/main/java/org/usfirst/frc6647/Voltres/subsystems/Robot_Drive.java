@@ -13,6 +13,8 @@ package org.usfirst.frc6647.Voltres.subsystems;
 
 import org.usfirst.frc6647.Voltres.Robot;
 import org.usfirst.frc6647.Voltres.RobotMap;
+import org.usfirst.frc6647.Voltres.OI;
+
 /*
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -23,6 +25,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.drive.*;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

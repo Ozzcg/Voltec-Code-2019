@@ -9,15 +9,19 @@ package org.usfirst.frc6647.Voltres;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfigUtil;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
@@ -126,8 +130,7 @@ public class RobotMap{
     public static Compressor Compressor;
     
     public static final double RAMPDRIVE = 0.2;
-    //poner aqui el NAVX
-
+    public static AHRS NAVX;
     //////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////INTAKE///////////////////////////////////////////
@@ -169,12 +172,35 @@ public class RobotMap{
 
     //////////////////////////////////////////////////////////////////////////////////////////
 
+    /////////////////////////////////////////PID/////////////////////////////////////////////
+    public static final double chassisEncoderP = 0.0;
+    public static final double chassisEncoderI = 0.0;
+    public static final double chassisEncoderD = 0.0;
+
+    public static final double chassisLeftP = 0.0;
+    public static final double chassisLeftI = 0.0;
+    public static final double chassisLeftD = 0.0;
+    public static final double chassisLeftF = 0.0;
+
+    public static final double chassisRightP = 0.0;
+    public static final double chassisRightI = 0.0;
+    public static final double chassisRightD = 0.0;
+    public static final double chassisRightF = 0.0;
+
+    public static final double chassisMidP = 0.0;
+    public static final double chassisMidI = 0.0;
+    public static final double chassisMidD = 0.0;
+    public static final double chassisMidF = 0.0;
+    //////////////////////////////////////////////////////////////////////////////////////////
+
 
     public static void init(){
     
         /////////////////////////////////////////CHASIS///////////////////////////////////////////
         pdp = new PowerDistributionPanel();
         Compressor = new Compressor(0);
+
+        NAVX = new AHRS(SPI.Port.kMXP);//NAVX
             
         frontLeft = new WPI_TalonSRX(TALON_FRONT_LEFT_CHASSIS_PORT);
         frontRight = new WPI_TalonSRX(TALON_FRONT_RIGHT_CHASSIS_PORT);
@@ -208,27 +234,38 @@ public class RobotMap{
         //Quad Encoder Left
         frontLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         frontLeft.setSensorPhase(true);
-
         frontLeft.setSelectedSensorPosition(0, 0, 0); //resetea el sensor
+        frontLeft.config_kP(0, chassisLeftP);
+        frontLeft.config_kI(0, chassisLeftI);
+        frontLeft.config_kD(0, chassisLeftD);
+        frontLeft.config_kF(0, chassisLeftF);
 
         ////
         frontRight.configClosedloopRamp(RAMPDRIVE, 0);
         frontRight.configOpenloopRamp(RAMPDRIVE, 0);
         //Quad Encoder Right
+
         frontRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-        frontRight.setSelectedSensorPosition(0, 0, 0);
         frontRight.setSensorPhase(true);
         frontRight.setSelectedSensorPosition(0, 0, 0); //resetea el sensor
+        frontRight.config_kP(0, chassisRightP);
+        frontRight.config_kI(0, chassisRightI);
+        frontRight.config_kD(0, chassisRightD);
+        frontRight.config_kF(0, chassisRightF);
         ////
-
-        hWheel.configClosedloopRamp(RAMPDRIVE, 0);
-        hWheel.configOpenloopRamp(RAMPDRIVE, 0);
+       hWheel.configClosedloopRamp(RAMPDRIVE, 0);
+        //hWheel.configOpenloopRamp(RAMPDRIVE, 0);
 
         //Quad Encoder Left
         hWheel.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         hWheel.setSensorPhase(true);
-
+        
         hWheel.setSelectedSensorPosition(0, 0, 0); //resetea el sensor
+        hWheel.config_kP(0, chassisMidP);
+        hWheel.config_kI(0, chassisMidI);
+        hWheel.config_kD(0, chassisMidD);
+        hWheel.config_kF(0, chassisMidF);
+        ///
 
         backLeft.configClosedloopRamp(RAMPDRIVE, 0);
         backLeft.configOpenloopRamp(RAMPDRIVE, 0);
@@ -237,8 +274,8 @@ public class RobotMap{
         
         frontLeft.set(ControlMode.PercentOutput,0);
         frontRight.set(ControlMode.PercentOutput,0);
-        backLeft.set(ControlMode.Follower,TALON_FRONT_LEFT_CHASSIS_PORT);
-        backRight.set(ControlMode.Follower,TALON_FRONT_RIGHT_CHASSIS_PORT);
+        backLeft.follow(frontLeft);
+        backRight.follow(frontRight);
         
         frontCylinderFoward = new Solenoid(SOL_FORWARD_FRONTCYLINDER_PORT);
         frontCylinderReverse = new Solenoid(SOL_REVERSE_FRONTCYLINDER_PORT);
@@ -252,7 +289,6 @@ public class RobotMap{
 
         ultrasense = new Ultrasonic(DO_ULTRASONIC_SEND, DI_ULTRASONIC_REC);
 
-        //poner aqui el NAVX
         
         //////////////////////////////////////////////////////////////////////////////////////////
         
