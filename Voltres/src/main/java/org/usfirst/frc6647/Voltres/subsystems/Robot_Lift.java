@@ -18,6 +18,7 @@ import org.usfirst.frc6647.Voltres.commands.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -35,6 +36,7 @@ public class Robot_Lift extends Subsystem {
     private static double lift_up_speed = 0.8;
     private static double lift_down_speed = 0.8;
     private static Encoder lift_Encoder;
+    private static DigitalInput downlimit;
 
     private static WPI_TalonSRX liftMain;
     /*
@@ -44,6 +46,7 @@ public class Robot_Lift extends Subsystem {
     public Robot_Lift() {
         liftMain = RobotMap.liftMain;
         lift_Encoder = RobotMap.liftEncoder;
+        downlimit = RobotMap.lowLimitLift;
     }
 
     @Override
@@ -56,13 +59,19 @@ public class Robot_Lift extends Subsystem {
     }
 
     public void Lift_Down(){
-        liftMain.set(ControlMode.PercentOutput, lift_down_speed*direction2);
+        if (!downlimit.get()){
+        liftMain.set(ControlMode.PercentOutput, 0);
+        }else{
+            liftMain.set(ControlMode.PercentOutput, lift_down_speed*direction2);
+        }
+        SmartDashboard.putNumber("Lift Encoder Value", lift_Encoder.get());
     }
 
     @Override
     public void periodic() {
         // Put code here to be run every loop
         SmartDashboard.putNumber("Lift Encoder Value", lift_Encoder.get());
+        SmartDashboard.putBoolean("Encoder Limit Down", downlimit.get());
     }
 
    public void Stop_Lift(){

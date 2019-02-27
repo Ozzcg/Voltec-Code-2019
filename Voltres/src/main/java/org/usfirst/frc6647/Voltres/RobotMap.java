@@ -81,7 +81,7 @@ public class RobotMap{
     
     ///////////////////////////NUMERO DE LAS SEÑALES ANALOGAS///////////////////////////////
     
-	private static final int AI_POT_PORT = 0;	                        //TILTAKE POTENTIOMETER
+	private static final int AI_POT_PORT = 1;	                        //TILTAKE POTENTIOMETER
 
     /////////////////////////////////////////////////////////////////////////////////////////
     
@@ -322,6 +322,7 @@ public class RobotMap{
         ////////////////////////////////////////TILTAKE///////////////////////////////////////////
         
         tilTake = new WPI_VictorSPX(VICTOR_TILTAKE_PORT);
+    
 
         lowLimitTilt = new DigitalInput(DI_TILTAKE_LIMIT_DOWN_PORT);
         topLimitTilt = new DigitalInput(DI_TILTAKE_LIMIT_UP_PORT);

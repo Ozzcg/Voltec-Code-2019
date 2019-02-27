@@ -17,6 +17,8 @@ import org.usfirst.frc6647.Voltres.commands.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -28,10 +30,12 @@ public class Robot_TilTake extends Subsystem {
     private static double tilt_up_speed = .8;
     private static double tilt_down_speed = 0.6;
     private static WPI_VictorSPX tilTake;
+    private static AnalogPotentiometer a_pot;
 
 
     public Robot_TilTake() {
         tilTake = RobotMap.tilTake;
+        a_pot = RobotMap.tiltakePot;
     }
 
     @Override
@@ -50,6 +54,7 @@ public class Robot_TilTake extends Subsystem {
     @Override
     public void periodic() {
         // Put code here to be run every loop
+        SmartDashboard.putNumber("Pot Value", a_pot.get());
 
     }
 

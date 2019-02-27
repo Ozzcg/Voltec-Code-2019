@@ -132,7 +132,7 @@ public class OI {
         Button6.whileHeld(new LiftUpManual());
         Button5.whileHeld(new LiftDownManual());
         Button1.whileHeld(new HAB3());
-        Button14.whileHeld(new MoveFrontHAB());
+        Button14.whileHeld(new Reset_Encoders());
         Button13.whileHeld(new MoveBackHAB());
 
     }
