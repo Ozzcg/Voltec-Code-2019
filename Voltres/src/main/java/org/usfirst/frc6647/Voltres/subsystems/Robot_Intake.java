@@ -26,8 +26,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 
 public class Robot_Intake extends Subsystem {
 
-    private static int direction1 = 1;
-    private static int direction2 = -1;
+    private static int direction1 = -1;
+    private static int direction2 = 1;
     private static double speed_in = 0.7;
     private static double speed_out = 0.7;
     private static WPI_VictorSPX intakeLeft;
