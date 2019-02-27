@@ -173,24 +173,41 @@ public class RobotMap{
     //////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////PID/////////////////////////////////////////////
-    public static final double chassisEncoderP = 0.0;
-    public static final double chassisEncoderI = 0.0;
-    public static final double chassisEncoderD = 0.0;
+    public static double chassisEncoderP = 0.0;
+    public static double chassisEncoderI = 0.0;
+    public static double chassisEncoderD = 0.0;
 
-    public static final double chassisLeftP = 0.0;
-    public static final double chassisLeftI = 0.0;
-    public static final double chassisLeftD = 0.0;
-    public static final double chassisLeftF = 0.0;
+    public static double chassisLeftP = 0.0;
+    public static double chassisLeftI = 0.0;
+    public static double chassisLeftD = 0.0;
+    public static double chassisLeftF = 0.0;
 
-    public static final double chassisRightP = 0.0;
-    public static final double chassisRightI = 0.0;
-    public static final double chassisRightD = 0.0;
-    public static final double chassisRightF = 0.0;
+    public static double chassisRightP = 0.0;
+    public static double chassisRightI = 0.0;
+    public static double chassisRightD = 0.0;
+    public static double chassisRightF = 0.0;
 
-    public static final double chassisMidP = 0.0;
-    public static final double chassisMidI = 0.0;
-    public static final double chassisMidD = 0.0;
-    public static final double chassisMidF = 0.0;
+    public static double chassisMidP = 0.0;
+    public static double chassisMidI = 0.0;
+    public static double chassisMidD = 0.0;
+    public static double chassisMidF = 0.0;
+
+    public static double liftP = 0.0;
+    public static double liftI = 0.0;
+    public static double liftD = 0.0;
+    public static double liftF = 0.0;
+    //////////////////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////////////////ELEVATOR VALUES////////////////////////////////////////
+    public static final int hatchLv1 = 16500;
+    public static final int hatchLv2 = 195000;
+    public static final int hatchLv3 = 307000;
+
+    public static final int cargoLv1 = 89000;
+    public static final int cargoLv2 = 24100;
+    public static final int cargoLv3 = 350000;
+    public static final int cargoship = 160000;
+
     //////////////////////////////////////////////////////////////////////////////////////////
 
 
