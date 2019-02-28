@@ -140,6 +140,10 @@ public class Robot_Drive extends Subsystem {
         frontCylinderFwd.set(false);
         frontCylinderRev.set(true);
     }
+    public void HABFront_Stop(){
+        frontCylinderFwd.set(true);
+        frontCylinderRev.set(true);
+    }
 
     public void HABBack_Up(){
         backCylinderFwd.set(true);
@@ -151,12 +155,17 @@ public class Robot_Drive extends Subsystem {
         backCylinderRev.set(true);
     }
 
+    public void HABBack_Stop(){
+        backCylinderFwd.set(true);
+        backCylinderRev.set(true);
+    }
+
     public void HAB_Front(){
         cylWheel.set(ControlMode.PercentOutput, 0.3);
     }
 
     public void HAB_Back(){
-        cylWheel.set(ControlMode.PercentOutput, 0.3);
+        cylWheel.set(ControlMode.PercentOutput, -0.3);
     }
     
     @Override
@@ -169,6 +178,7 @@ public class Robot_Drive extends Subsystem {
     public void Stop_Drive(){
         lefTalon.set(ControlMode.PercentOutput, 0.0);
         righTalon.set(ControlMode.PercentOutput, 0.0);
+        cylWheel.set(ControlMode.PercentOutput, 0.0);
     }
 
 }
