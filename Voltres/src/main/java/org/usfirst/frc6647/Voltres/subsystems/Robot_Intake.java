@@ -15,7 +15,7 @@ import org.usfirst.frc6647.Voltres.RobotMap;
 
 import org.usfirst.frc6647.Voltres.commands.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 
@@ -32,7 +32,7 @@ public class Robot_Intake extends Subsystem {
     private static double speed_out = 0.7;
     private static WPI_VictorSPX intakeLeft;
     private static WPI_VictorSPX intakeRight;
-    private static DoubleSolenoid H;
+    private static Solenoid H;
     private static double statepiston=1;
 
     public Robot_Intake() {
@@ -57,23 +57,28 @@ public class Robot_Intake extends Subsystem {
         intakeRight.set(ControlMode.PercentOutput, speed_out*direction2);
     }
 
-    public void Control_H(){
+    public void Control_H(boolean Value){
+        H.set(Value);
+        /*
         if(statepiston==1) {
 			Open_H();
 			statepiston=statepiston*-1;
 		}else {
 			Close_H();
-			statepiston=statepiston*-1;
-		}
-    }
+            statepiston=statepiston*-1;
+            */
+        }
+        
 
+    /*
     public void Close_H(){
-		H.set(DoubleSolenoid.Value.kReverse);
+		H.set(true);
 	}
 	
     public void Open_H(){
 		H.set(DoubleSolenoid.Value.kForward);
-	}
+    }
+    */
 
     @Override
     public void periodic() {
