@@ -27,6 +27,7 @@ public class HatchHigh extends Command {
     @Override
     protected void initialize() {
         Robot.autonomouscommands.setSetpoint(RobotMap.hatchLv3);
+        Robot.autonomouscommands.enable();
 
     }
 
@@ -34,12 +35,13 @@ public class HatchHigh extends Command {
     @Override
     protected void execute() {
         Robot.autonomouscommands.setPIDValues();
+        Robot.autonomouscommands.enable();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return Math.abs(RobotMap.hatchLv3-Robot.autonomouscommands.ret)<100;
+        return false;//Math.abs(RobotMap.hatchLv3-Robot.autonomouscommands.getRet())<100;
     }
 
     // Called once after isFinished returns true

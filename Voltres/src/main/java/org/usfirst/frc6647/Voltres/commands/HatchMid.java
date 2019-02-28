@@ -35,12 +35,13 @@ public class HatchMid extends Command {
     @Override
     protected void execute() {
         Robot.autonomouscommands.setPIDValues();
+        Robot.autonomouscommands.enable();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return Math.abs(RobotMap.hatchLv2-Robot.autonomouscommands.ret)<100;
+        return false;//Math.abs(RobotMap.hatchLv2-Robot.autonomouscommands.getRet())<100;
     }
 
     // Called once after isFinished returns true

@@ -23,16 +23,19 @@ public class Autonomous_Commands extends PIDSubsystem {
     // Intert a subsystem name and PID values here
     super("SubsystemName", RobotMap.liftP, RobotMap.liftI, RobotMap.liftD);
     // Use these to get going:
-
+    setInputRange(0,  360000);
     setOutputRange(-1, 1);
     setAbsoluteTolerance(20);
-    getPIDController().setContinuous();
+    getPIDController().setContinuous(true);
   }
   public void setPoint(int position){
     setSetpoint(position); //- Sets where the PID controller should move the system
   }
   public void setPIDValues(){
     getPIDController().setPID(RobotMap.liftP, RobotMap.liftI, RobotMap.liftD);
+  }
+  public int getRet(){
+    return ret;
   }
   public void stop(){
     RobotMap.liftMain.stopMotor();
@@ -56,6 +59,6 @@ public class Autonomous_Commands extends PIDSubsystem {
   protected void usePIDOutput(double output) {
     // Use output to drive your system, like a motor
     // e.g. yourMotor.set(output);
-    RobotMap.liftMain.set(output);
+    RobotMap.liftMain.set(-output);
   }
 }

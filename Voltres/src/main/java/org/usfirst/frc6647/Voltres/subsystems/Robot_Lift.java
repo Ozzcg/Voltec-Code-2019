@@ -72,6 +72,7 @@ public class Robot_Lift extends Subsystem {
         // Put code here to be run every loop
         SmartDashboard.putNumber("Lift Encoder Value", lift_Encoder.get());
         SmartDashboard.putBoolean("Encoder Limit Down", downlimit.get());
+        if(downlimit.get() !=true) RobotMap.liftEncoder.reset();
     }
 
    public void Stop_Lift(){

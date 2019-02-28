@@ -192,7 +192,7 @@ public class RobotMap{
     public static double chassisMidD = 0.0;
     public static double chassisMidF = 0.0;
 
-    public static double liftP = 0.0;
+    public static double liftP = 0.00001;
     public static double liftI = 0.0;
     public static double liftD = 0.0;
     public static double liftF = 0.0;
@@ -384,7 +384,7 @@ public class RobotMap{
         liftFollower.setNeutralMode(NeutralMode.Brake);
 
         liftMain.set(ControlMode.PercentOutput,0);
-        liftFollower.set(ControlMode.Follower, VICTOR_LIFT_MOTOR_ENCODER_PORT);
+        liftFollower.follow(liftMain);
 
         liftEncoder.reset();
         

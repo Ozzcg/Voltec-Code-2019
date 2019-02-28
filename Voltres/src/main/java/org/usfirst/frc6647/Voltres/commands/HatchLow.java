@@ -13,13 +13,11 @@ package org.usfirst.frc6647.Voltres.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc6647.Voltres.Robot;
 import org.usfirst.frc6647.Voltres.RobotMap;
-import org.usfirst.frc6647.Voltres.subsystems.Autonomous_Commands;
 
 /**
  *
  */
 public class HatchLow extends Command {
-
 
     public HatchLow() {
         requires(Robot.autonomouscommands);
@@ -29,20 +27,22 @@ public class HatchLow extends Command {
     @Override
     protected void initialize() {
         Robot.autonomouscommands.setSetpoint(RobotMap.hatchLv1);
-
+        Robot.autonomouscommands.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
         Robot.autonomouscommands.setPIDValues();
+        Robot.autonomouscommands.enable();
+
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return Math.abs(RobotMap.hatchLv1-Robot.autonomouscommands.ret)<100;
-    }
+        return false; //Math.abs(RobotMap.hatchLv1-Robot.autonomouscommands.getRet())<100;
+    }   
 
     // Called once after isFinished returns true
     @Override
