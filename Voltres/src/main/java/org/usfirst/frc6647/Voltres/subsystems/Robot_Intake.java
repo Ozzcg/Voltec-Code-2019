@@ -57,19 +57,19 @@ public class Robot_Intake extends Subsystem {
         intakeRight.set(ControlMode.PercentOutput, speed_out*direction2);
     }
 
-    public void Control_H(boolean Value){
-        H.set(Value);
+    public void Control_H(boolean value){
+        H.set(value);
         /*
         if(statepiston==1) {
-			Open_H();
+			H.set(true);
 			statepiston=statepiston*-1;
 		}else {
-			Close_H();
+			H.set(false);
             statepiston=statepiston*-1;
-            */
         }
+        */
         
-
+    }
     /*
     public void Close_H(){
 		H.set(true);

@@ -93,7 +93,7 @@ public class RobotMap{
 	
     ////////////////////////////////////SEÑALES DE LA PCM////////////////////////////////////
 
-    private static final int SOL_FORWARD_H_PORT = 0;                   //H LEFT PISTON FORWARD
+    private static final int SOL_FORWARD_H_PORT = 2;                   //H LEFT PISTON FORWARD
 	//private static final int SOL_REVERSE_H_PORT = 1;                   //H LEFT PISTON REVERSE
 
 
@@ -215,7 +215,7 @@ public class RobotMap{
     
         /////////////////////////////////////////CHASIS///////////////////////////////////////////
         pdp = new PowerDistributionPanel();
-        Compressor = new Compressor(0);
+        Compressor = new Compressor(13);
 
         NAVX = new AHRS(SPI.Port.kMXP);//NAVX
             
