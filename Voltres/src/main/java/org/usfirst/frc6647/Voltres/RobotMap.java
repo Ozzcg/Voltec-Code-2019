@@ -177,15 +177,15 @@ public class RobotMap{
     public static double chassisEncoderI = 0.0;
     public static double chassisEncoderD = 0.0;
 
-    public static double chassisLeftP = 0.0;
+    public static double chassisLeftP = .25;
     public static double chassisLeftI = 0.0;
     public static double chassisLeftD = 0.0;
-    public static double chassisLeftF = 0.0;
+    public static double chassisLeftF = 1023/2200;
 
-    public static double chassisRightP = 0.0;
+    public static double chassisRightP = .25;
     public static double chassisRightI = 0.0;
     public static double chassisRightD = 0.0;
-    public static double chassisRightF = 0.0;
+    public static double chassisRightF = 1023/2200;
 
     public static double chassisMidP = 0.0;
     public static double chassisMidI = 0.0;
