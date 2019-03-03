@@ -215,7 +215,7 @@ public class RobotMap{
     
         /////////////////////////////////////////CHASIS///////////////////////////////////////////
         pdp = new PowerDistributionPanel();
-        Compressor = new Compressor(13);
+        Compressor = new Compressor(0);
 
         NAVX = new AHRS(SPI.Port.kMXP);//NAVX
             
