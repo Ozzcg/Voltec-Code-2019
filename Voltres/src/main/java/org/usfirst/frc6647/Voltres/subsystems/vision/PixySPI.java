@@ -21,7 +21,6 @@ public class PixySPI {
 	HashMap<Integer, ArrayList<PixyPacket>> packets = null;
 	PixyException pExc = null;
 	String print;
-	boolean isReading;
 
 	// Variables used for pixy comms, derived from https://github.com/omwah/pixy_rpi
 	static final byte PIXY_SYNC_BYTE = 0x5a;
@@ -35,7 +34,7 @@ public class PixySPI {
 	private ArrayDeque<Byte> outBuf = new ArrayDeque<>(); // Future use for sending commands to Pixy.
 	private ArrayList<int[]> blocks = new ArrayList<int[]>();
 	private boolean skipStart = false;
-	private int debug = 2; // 0 - none, 1 - SmartDashboard, 2 - log to console/file 
+	private int debug = 0; // 0 - none, 1 - SmartDashboard, 2 - log to console/file 
 
 	private static final Logger logger =
 			Logger.getLogger(PixySPI.class.getName());
@@ -44,6 +43,8 @@ public class PixySPI {
 	long getStart = 0;
 	long getBlock = 0;
 	long readPackets = 0;
+
+	public boolean isReading = false;
 
 	public PixySPI(SPI argPixy, HashMap<Integer, ArrayList<PixyPacket>> argPixyPacket, PixyException argPixyException){
 		pixy = argPixy;
@@ -67,6 +68,7 @@ public class PixySPI {
 		//rawComms();
 
 		int numBlocks = getBlocks(1000);
+		SmartDashboard.putNumber("NUMCOUNT", numBlocks);
 
 		// Clear out and initialize ArrayList for PixyPackets.
 		packets.clear();
@@ -75,8 +77,11 @@ public class PixySPI {
 			packets.put(i, new ArrayList<PixyPacket>());
 		}
 
+		isReading = false;
+		
 		// Put the found blocks into the correct spot in the return Hashmap<ArrayList<int[]>>.
 		if(numBlocks > 0) {
+			isReading = true;
 			if(debug >= 2) {logger.log(Level.INFO, "Pixy readPackets: blocks detected: {0}", Integer.toString(numBlocks));}
 			if(debug >= 1) {SmartDashboard.putString("Pixy readPackets: blocks detected: ", Integer.toString(numBlocks));}
 
@@ -104,9 +109,6 @@ public class PixySPI {
 				packets.get(signature).add(packet);
 				if(debug >= 1) {SmartDashboard.putNumber("Pixy readPackets: packets size: ", packets.get(signature).size());}
 			}
-			isReading = true;
-		} else {
-			isReading = false;
 		}
 
 		return(1);

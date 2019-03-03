@@ -4,9 +4,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 
-import org.usfirst.frc6647.Voltres.RobotMap;
+import org.opencv.core.Mat;
 
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SPI.Port;
@@ -15,23 +14,38 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Vision extends Subsystem {
 
+
 	// These values are the default if you instantiate a PixySPI without arguments.
 	// To create multiple PixySPI objects and thus use multiple Pixy cameras via SPI
 	// Copy the items below, change variable names as needed and especially change
-	// the SPI port used eg; Port.kOnboardCS[0-3] or Port.kMXP
+	// the SPI port used eg; Port.kOnboardCS[0-3] or Port.
+	
+	public int toleranceLeftTarget = 30;
+	public int toleranceRightTarget = 30;
+	public int toleranceRatio = 20;
+
+
 	public PixySPI pixy1;
 	Port port = Port.kOnboardCS0;
 	String print;
 	public HashMap<Integer, ArrayList<PixyPacket>> packets = new HashMap<Integer, ArrayList<PixyPacket>>();
 
-	public PixyPacket leftPacket;
-	public PixyPacket rightPacket;
+	public PixyPacket leftPacket, rightPacket;
 
-	public boolean twoObjects;
+	public boolean lastWasRight = true;
 
 	public Vision(){
 		// Open a pipeline to a Pixy camera.
 		pixy1 = new PixySPI(new SPI(port), packets, new PixyException(print));
+
+		// Initialize values at max and minimum values (0,320) 
+		// with height & width = 1
+		leftPacket = new PixyPacket();
+		rightPacket = new PixyPacket();
+		leftPacket.X = 0;
+		rightPacket.X = 320;
+		leftPacket.Height = rightPacket.Height = 1;
+		leftPacket.Width = rightPacket.Width = 1;
 	}
 
 
@@ -41,6 +55,8 @@ public class Vision extends Subsystem {
 	}
 
 	public void testPixy1(){
+		SmartDashboard.putBoolean("IsReading", pixy1.isReading);
+
 		int ret = -1;
 		// Get the packets from the pixy.
 		try {
@@ -51,57 +67,60 @@ public class Vision extends Subsystem {
 		}
 		
 		SmartDashboard.putNumber("Pixy Vision: packets size: ", packets.size());
-		SmartDashboard.putBoolean("Reading: ", pixy1.isReading);
 
 		for(int i = 1; i <= PixySPI.PIXY_SIG_COUNT ; i++) {
-			SmartDashboard.putString("Pixy Vision: Signature: ", Integer.toString(i));
+			SmartDashboard.putString("Pixy Vision: Signature " + Integer.toString(i) + ": ", Integer.toString(i));
 
 			SmartDashboard.putNumber("Pixy Vision: packet: " + Integer.toString(i) + ": size: ", packets.get(i).size());
-
-			SmartDashboard.putNumber("Packet size: ", packets.get(i).size());
-
-			if(packets.get(i).size() >= 2) {
-				twoObjects = true;
-
-				if(packets.get(i).get(0).X < packets.get(i).get(1).X) {
-					leftPacket = packets.get(i).get(0);
-					rightPacket = packets.get(i).get(1);
-				} else {
-					rightPacket = packets.get(i).get(0);
-					leftPacket = packets.get(i).get(1);
-				}
-			} else if(packets.get(i).size() == 1) {
-				twoObjects = false;
-				leftPacket = packets.get(i).get(0);
-			} else {
-				twoObjects = false;
-			}
-
-			SmartDashboard.putBoolean("Two Objects", twoObjects);
-
+			
 			// Loop through the packets for this signature.
 			for(int j=0; j < packets.get(i).size(); j++) {
-				SmartDashboard.putNumber("Pixy Vision: " + Integer.toString(i) + ": X: ", packets.get(i).get(j).X);
-				SmartDashboard.putNumber("Pixy Vision: " + Integer.toString(i) + ": Y: ", packets.get(i).get(j).Y);
-				SmartDashboard.putNumber("Pixy Vision: " + Integer.toString(i) + ": Width: ", packets.get(i).get(j).Width);
-				SmartDashboard.putNumber("Pixy Vision: " + Integer.toString(i) + ": Height: ", packets.get(i).get(j).Height);
+
+				PixyPacket tmpPacket = packets.get(i).get(j);
+				
+				if(tmpPacket.X < 160)
+				{
+					leftPacket = packets.get(i).get(j);
+					lastWasRight = false;
+					SmartDashboard.putNumber("Pixy Vision: " + Integer.toString(i) + " LEFT : X: ", packets.get(i).get(j).X);
+					SmartDashboard.putNumber("Pixy Vision: " + Integer.toString(i) + " LEFT : Y: ", packets.get(i).get(j).Y);
+					SmartDashboard.putNumber("Pixy Vision: " + Integer.toString(i) + " LEFT : Width: ", packets.get(i).get(j).Width);
+					SmartDashboard.putNumber("Pixy Vision: " + Integer.toString(i) + " LEFT : Height: ", packets.get(i).get(j).Height);
+				}
+				else{
+					rightPacket = packets.get(i).get(j);
+					lastWasRight = true;
+					SmartDashboard.putNumber("Pixy Vision: " + Integer.toString(i) + " RIGHT : X: ", packets.get(i).get(j).X);
+					SmartDashboard.putNumber("Pixy Vision: " + Integer.toString(i) + " RIGHT : Y: ", packets.get(i).get(j).Y);
+					SmartDashboard.putNumber("Pixy Vision: " + Integer.toString(i) + " RIGHT : Width: ", packets.get(i).get(j).Width);
+					SmartDashboard.putNumber("Pixy Vision: " + Integer.toString(i) + " RIGHT : Height: ", packets.get(i).get(j).Height);
+				}
 			}
+
+			SmartDashboard.putBoolean("LastWasRight", lastWasRight);
 		}
+		
 	}
 
-	/**
-	 * Checa si el valor 'x' del objeto está entre la tolerancia del centro asignado en el RobotMap.
-	 */
-	public boolean isLeftAligned() {
-		return leftPacket.X >= 0 && leftPacket.X < RobotMap.PIXY_DIFF_LEFT + RobotMap.PIXY_TOLERANCE_LEFT;
+	public double getLeftRatio()
+	{
+		return leftPacket.Width / leftPacket.Height;
 	}
 
-	public boolean isRightAligned() {
-		return rightPacket.X >= 320 - RobotMap.PIXY_DIFF_RIGHT - RobotMap.PIXY_TOLERANCE_RIGHT &&
-			rightPacket.X <= 320 - RobotMap.PIXY_DIFF_RIGHT + RobotMap.PIXY_TOLERANCE_RIGHT;
+	public double getRightRatio()
+	{
+		return rightPacket.Width / rightPacket.Height;
 	}
 
-	public boolean isAligned() {
-		return isLeftAligned() && isRightAligned() && twoObjects;
+	public boolean isAlignedRotation()
+	{
+		return (leftPacket.X < toleranceLeftTarget) && (rightPacket.X > 320 - toleranceRightTarget);
 	}
+
+	public boolean isAlignedH()
+	{
+		return Math.abs(leftPacket.Width - rightPacket.Width) <= toleranceRatio;
+	}
+
+
 }

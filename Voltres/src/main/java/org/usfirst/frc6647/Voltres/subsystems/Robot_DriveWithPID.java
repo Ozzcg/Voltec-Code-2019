@@ -65,7 +65,7 @@ public class Robot_DriveWithPID extends Subsystem {
 	}
 
 	public void Drift_Stop() {
-		hWheel.set(0);
+		hWheel.set(ControlMode.PercentOutput, 0);
 	}
 
 	public void Main_Drive() {
