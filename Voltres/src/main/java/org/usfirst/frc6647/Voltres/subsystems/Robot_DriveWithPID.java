@@ -8,7 +8,6 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-
 package org.usfirst.frc6647.Voltres.subsystems;
 
 import org.usfirst.frc6647.Voltres.Robot;
@@ -24,116 +23,139 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 public class Robot_DriveWithPID extends Subsystem {
 
-    private static final double TOLERANCE=0.15;  //tolerancia del joystick(quita el error)
-	private static final double LIMITER=0.8;  //Por si quieren limitar la velocidad del drive
-    private static WPI_TalonSRX lefTalon;
-    private static WPI_TalonSRX righTalon;
-    private static WPI_TalonSRX hWheel;
+	private final double TOLERANCE = 0.15; // tolerancia del joystick(quita el error)
+	private final double LIMITER = 0.8; // Por si quieren limitar la velocidad del drive
+	private WPI_TalonSRX lefTalon;
+	private WPI_TalonSRX righTalon;
+	private WPI_TalonSRX hWheel;
+	private DifferentialDrive diffDrive;
 
-    //private static double statepiston=1;
+	// private static double statepiston=1;
 
-    public Robot_DriveWithPID() {
+	public Robot_DriveWithPID() {
+		lefTalon = RobotMap.frontLeft;
+		righTalon = RobotMap.frontRight;
 
-        lefTalon = RobotMap.frontLeft;
-        righTalon = RobotMap.frontRight;
-        hWheel = RobotMap.hWheel;
-    }
+		diffDrive = new DifferentialDrive(lefTalon, righTalon);
 
-    @Override
-    public void initDefaultCommand() {
-        Main_Drive();
-    }
+		hWheel = RobotMap.hWheel;
+	}
 
-    public void Main_Drive(){
-        Joystick joystick = Robot.oi.joystick1;
+	@Override
+	public void initDefaultCommand() {
+		Main_Drive();
+	}
 
-        double  LeftStickY=joystick.getRawAxis(1),
-                LeftStickX=-joystick.getRawAxis(0),
-                RightStickX=joystick.getRawAxis(2);
+	public void Rotate_Robot(boolean toLeft, double velocity) {
+		if(toLeft) {
+			diffDrive.tankDrive(velocity, velocity);
+		} else {
+			diffDrive.tankDrive(-velocity, -velocity);
+		}
+	}
 
-        arcadeDrive(LeftStickY*LIMITER, LeftStickX*LIMITER);
-        hWheel.set(ControlMode.PercentOutput, RightStickX);
+	public void Drift(double velocity) {
+		hWheel.set(ControlMode.PercentOutput, velocity);
+	}
 
-        SmartDashboard.putNumber("EncoderL chassis", lefTalon.getSelectedSensorPosition(0));
+	public void Rotate_Stop() {
+		diffDrive.tankDrive(0, 0);
+	}
+
+	public void Drift_Stop() {
+		hWheel.set(0);
+	}
+
+	public void Main_Drive() {
+		Joystick joystick = Robot.oi.joystick1;
+
+		double LeftStickY = joystick.getRawAxis(1), LeftStickX = -joystick.getRawAxis(0),
+				RightStickX = joystick.getRawAxis(2);
+
+		arcadeDrive(LeftStickY * LIMITER, LeftStickX * LIMITER);
+		hWheel.set(ControlMode.PercentOutput, RightStickX);
+
+		SmartDashboard.putNumber("EncoderL chassis", lefTalon.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("EncoderR chassis", righTalon.getSelectedSensorPosition(0));
-    }
-    
-    public void arcadeDrive(double xSpeed, double zRotation){
-        xSpeed = limit(xSpeed);
-        xSpeed = applyDeadband(xSpeed, 0.02);
-    
-        zRotation = limit(zRotation);
-        zRotation = applyDeadband(zRotation, 0.02);
-    
-        // Square the inputs (while preserving the sign) to increase fine control
-        // while permitting full power.
-          xSpeed = Math.copySign(xSpeed * xSpeed, xSpeed);
-          zRotation = Math.copySign(zRotation * zRotation, zRotation);
-    
-        double leftMotorOutput;
-        double rightMotorOutput;
-    
-        double maxInput = Math.copySign(Math.max(Math.abs(xSpeed), Math.abs(zRotation)), xSpeed);
-    
-        if (xSpeed >= 0.0) {
-          // First quadrant, else second quadrant
-          if (zRotation >= 0.0) {
-            leftMotorOutput = maxInput;
-            rightMotorOutput = xSpeed - zRotation;
-          } else {
-            leftMotorOutput = xSpeed + zRotation;
-            rightMotorOutput = maxInput;
-          }
-        } else {
-          // Third quadrant, else fourth quadrant
-          if (zRotation >= 0.0) {
-            leftMotorOutput = xSpeed + zRotation;
-            rightMotorOutput = maxInput;
-          } else {
-            leftMotorOutput = maxInput;
-            rightMotorOutput = xSpeed - zRotation;
-          }
-        }
-        
-        lefTalon.set(ControlMode.Velocity, (leftMotorOutput) * 3300);
-        righTalon.set(ControlMode.Velocity, (rightMotorOutput) * 3300);
-        SmartDashboard.putNumber("LeftMotors", (leftMotorOutput) * 3300);
-        SmartDashboard.putNumber("RightMotors", (rightMotorOutput) * 3300);
-    }
-    public double applyDeadband(double value, double deadband){
-        if (Math.abs(value) > deadband) {
-            if (value > 0.0) {
-              return (value - deadband) / (1.0 - deadband);
-            } else {
-              return (value + deadband) / (1.0 - deadband);
-            }
-          } else {
-            return 0.0;
-          }
-    }
-    public double limit(double value){
-        if (value > 1.0) {
-            return 1.0;
-        }
-        if (value < -1.0) {
-            return -1.0;
-        }
-        return value;
-    }
-    @Override
-    public void periodic() {
-        // Put code here to be run every loop
-        SmartDashboard.putNumber("EncoderL chassis", lefTalon.getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("EncoderR chassis", righTalon.getSelectedSensorPosition(0));
-    }
+	}
 
-    public void Stop_Drive(){
-        lefTalon.set(ControlMode.PercentOutput, 0.0);
-        righTalon.set(ControlMode.PercentOutput, 0.0);
-    }
+	public void arcadeDrive(double xSpeed, double zRotation) {
+		xSpeed = limit(xSpeed);
+		xSpeed = applyDeadband(xSpeed, 0.02);
+
+		zRotation = limit(zRotation);
+		zRotation = applyDeadband(zRotation, 0.02);
+
+		// Square the inputs (while preserving the sign) to increase fine control
+		// while permitting full power.
+		xSpeed = Math.copySign(xSpeed * xSpeed, xSpeed);
+		zRotation = Math.copySign(zRotation * zRotation, zRotation);
+
+		double leftMotorOutput;
+		double rightMotorOutput;
+
+		double maxInput = Math.copySign(Math.max(Math.abs(xSpeed), Math.abs(zRotation)), xSpeed);
+
+		if (xSpeed >= 0.0) {
+			// First quadrant, else second quadrant
+			if (zRotation >= 0.0) {
+				leftMotorOutput = maxInput;
+				rightMotorOutput = xSpeed - zRotation;
+			} else {
+				leftMotorOutput = xSpeed + zRotation;
+				rightMotorOutput = maxInput;
+			}
+		} else {
+			// Third quadrant, else fourth quadrant
+			if (zRotation >= 0.0) {
+				leftMotorOutput = xSpeed + zRotation;
+				rightMotorOutput = maxInput;
+			} else {
+				leftMotorOutput = maxInput;
+				rightMotorOutput = xSpeed - zRotation;
+			}
+		}
+
+		lefTalon.set(ControlMode.Velocity, (leftMotorOutput) * 3300);
+		righTalon.set(ControlMode.Velocity, (rightMotorOutput) * 3300);
+		SmartDashboard.putNumber("LeftMotors", (leftMotorOutput) * 3300);
+		SmartDashboard.putNumber("RightMotors", (rightMotorOutput) * 3300);
+	}
+
+	public double applyDeadband(double value, double deadband) {
+		if (Math.abs(value) > deadband) {
+			if (value > 0.0) {
+				return (value - deadband) / (1.0 - deadband);
+			} else {
+				return (value + deadband) / (1.0 - deadband);
+			}
+		} else {
+			return 0.0;
+		}
+	}
+
+	public double limit(double value) {
+		if (value > 1.0) {
+			return 1.0;
+		}
+		if (value < -1.0) {
+			return -1.0;
+		}
+		return value;
+	}
+
+	@Override
+	public void periodic() {
+		// Put code here to be run every loop
+		SmartDashboard.putNumber("EncoderL chassis", lefTalon.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("EncoderR chassis", righTalon.getSelectedSensorPosition(0));
+	}
+
+	public void Stop_Drive() {
+		lefTalon.set(ControlMode.PercentOutput, 0.0);
+		righTalon.set(ControlMode.PercentOutput, 0.0);
+	}
 
 }
-

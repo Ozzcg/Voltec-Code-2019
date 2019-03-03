@@ -15,50 +15,56 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
  * Add your docs here.
  */
 public class Autonomous_Commands extends PIDSubsystem {
-  /**
-   * Add your docs here.
-   */
-  public static int ret;
-  public Autonomous_Commands() {
-    // Intert a subsystem name and PID values here
-    super("SubsystemName", RobotMap.liftP, RobotMap.liftI, RobotMap.liftD);
-    // Use these to get going:
-    setInputRange(0,  360000);
-    setOutputRange(-1, 1);
-    setAbsoluteTolerance(20);
-    getPIDController().setContinuous(true);
-  }
-  public void setPoint(int position){
-    setSetpoint(position); //- Sets where the PID controller should move the system
-  }
-  public void setPIDValues(){
-    getPIDController().setPID(RobotMap.liftP, RobotMap.liftI, RobotMap.liftD);
-  }
-  public int getRet(){
-    return ret;
-  }
-  public void stop(){
-    RobotMap.liftMain.stopMotor();
-  }
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
-  }
+	/**
+	 * Add your docs here.
+	 */
+	public static int ret;
 
-  @Override
-  protected double returnPIDInput() {
-    // Return your input value for the PID loop
-    // e.g. a sensor, like a potentiometer:
-    // yourPot.getAverageVoltage() / kYourMaxVoltage;
-    ret = RobotMap.liftEncoder.get();
-    return ret;
-  }
+	public Autonomous_Commands() {
+		// Intert a subsystem name and PID values here
+		super("SubsystemName", RobotMap.liftP, RobotMap.liftI, RobotMap.liftD);
+		// Use these to get going:
+		setInputRange(0, 360000);
+		setOutputRange(-1, 1);
+		setAbsoluteTolerance(20);
+		getPIDController().setContinuous(true);
+	}
 
-  @Override
-  protected void usePIDOutput(double output) {
-    // Use output to drive your system, like a motor
-    // e.g. yourMotor.set(output);
-    RobotMap.liftMain.set(-output);
-  }
+	public void setPoint(int position) {
+		setSetpoint(position); // - Sets where the PID controller should move the system
+	}
+
+	public void setPIDValues() {
+		getPIDController().setPID(RobotMap.liftP, RobotMap.liftI, RobotMap.liftD);
+	}
+
+	public int getRet() {
+		return ret;
+	}
+
+	public void stop() {
+		RobotMap.liftMain.stopMotor();
+	}
+
+	@Override
+	public void initDefaultCommand() {
+		// Set the default command for a subsystem here.
+		// setDefaultCommand(new MySpecialCommand());
+	}
+
+	@Override
+	protected double returnPIDInput() {
+		// Return your input value for the PID loop
+		// e.g. a sensor, like a potentiometer:
+		// yourPot.getAverageVoltage() / kYourMaxVoltage;
+		ret = RobotMap.liftEncoder.get();
+		return ret;
+	}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		// Use output to drive your system, like a motor
+		// e.g. yourMotor.set(output);
+		RobotMap.liftMain.set(-output);
+	}
 }
