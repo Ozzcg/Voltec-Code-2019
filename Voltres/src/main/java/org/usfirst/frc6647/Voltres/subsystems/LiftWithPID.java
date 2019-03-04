@@ -14,12 +14,12 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 /**
  * Add your docs here.
  */
-public class Autonomous_Commands extends PIDSubsystem {
+public class LiftWithPID extends PIDSubsystem {
   /**
    * Add your docs here.
    */
   public static int ret;
-  public Autonomous_Commands() {
+  public LiftWithPID() {
     // Intert a subsystem name and PID values here
     super("SubsystemName", RobotMap.liftP, RobotMap.liftI, RobotMap.liftD);
     // Use these to get going:

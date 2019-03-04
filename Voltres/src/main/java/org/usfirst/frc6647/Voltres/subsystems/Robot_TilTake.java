@@ -14,6 +14,8 @@ package org.usfirst.frc6647.Voltres.subsystems;
 import org.usfirst.frc6647.Voltres.RobotMap;
 
 import org.usfirst.frc6647.Voltres.commands.*;
+
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -23,7 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
-public class Robot_TilTake extends Subsystem {
+public class Robot_TilTake extends PIDSubsystem {
 
     private static int direction1 = 1;
     private static int direction2 = -1;
@@ -31,16 +33,30 @@ public class Robot_TilTake extends Subsystem {
     private static double tilt_down_speed = 0.6;
     private static WPI_VictorSPX tilTake;
     private static AnalogPotentiometer a_pot;
+    public static double ret;
 
 
     public Robot_TilTake() {
+        super("Robot_TilTake", RobotMap.intakeP, RobotMap.intakeI, RobotMap.intakeD);
         tilTake = RobotMap.tilTake;
         a_pot = RobotMap.tiltakePot;
-    }
+        setInputRange(0, 1);
+        setOutputRange(-1, 1);
+        setAbsoluteTolerance(.00005);
+        getPIDController().setContinuous(true);
 
+    }
+    public void setPoint(int position){
+        setSetpoint(position);
+    }
+    public void setPIDValues(){
+        getPIDController().setPID(RobotMap.intakeP,RobotMap.intakeI, RobotMap.intakeD);
+    }
+    public double getRet(){
+        return ret;
+    }
     @Override
     public void initDefaultCommand() {
-        Stop_Tilt();
     }
 
     public void Tilt_Up(){
@@ -54,12 +70,22 @@ public class Robot_TilTake extends Subsystem {
     @Override
     public void periodic() {
         // Put code here to be run every loop
-        SmartDashboard.putNumber("Pot Value", a_pot.get());
-
     }
 
-    public void Stop_Tilt(){
+    public void stop(){
         tilTake.set(ControlMode.PercentOutput, 0.0);
+    }
+
+    @Override
+    protected double returnPIDInput() {
+        ret = RobotMap.tiltakePot.pidGet();
+        return ret;
+    }
+
+    @Override
+    protected void usePIDOutput(double output) {
+        tilTake.set(ControlMode.PercentOutput, output);
+
     }
 
 }

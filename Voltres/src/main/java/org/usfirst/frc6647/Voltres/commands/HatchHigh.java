@@ -20,34 +20,34 @@ import org.usfirst.frc6647.Voltres.RobotMap;
 public class HatchHigh extends Command {
 
     public HatchHigh() {
-        requires(Robot.autonomouscommands);
+        requires(Robot.liftWithPID);
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Robot.autonomouscommands.setSetpoint(RobotMap.hatchLv3);
-        Robot.autonomouscommands.enable();
+        Robot.liftWithPID.setSetpoint(RobotMap.hatchLv3);
+        Robot.liftWithPID.enable();
 
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.autonomouscommands.setPIDValues();
-        Robot.autonomouscommands.enable();
+        Robot.liftWithPID.setPIDValues();
+        Robot.liftWithPID.enable();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return false;//Math.abs(RobotMap.hatchLv3-Robot.autonomouscommands.getRet())<100;
+        return false;//Math.abs(RobotMap.hatchLv3-Robot.liftWithPID.getRet())<100;
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Robot.autonomouscommands.disable();
+        Robot.liftWithPID.disable();
     }
 
     // Called when another command which requires one or more of the same

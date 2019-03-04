@@ -196,6 +196,10 @@ public class RobotMap{
     public static double liftI = 0.0;
     public static double liftD = 0.0;
     public static double liftF = 0.0;
+
+    public static double intakeP = 2.95;
+    public static double intakeI = 0.3;
+    public static double intakeD = 0.22;
     //////////////////////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////ELEVATOR VALUES////////////////////////////////////////

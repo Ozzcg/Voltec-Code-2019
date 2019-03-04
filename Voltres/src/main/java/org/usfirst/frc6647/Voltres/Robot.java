@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
     public static Robot_TilTake tilTake;
     public static Robot_Drive robotDrive;
     public static Robot_Control control;
-    public static Autonomous_Commands autonomouscommands;
+    public static LiftWithPID liftWithPID;
     public static Robot_DriveWithPID driveWPID;
 
 
@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
         robotDrive = new Robot_Drive();
         control = new Robot_Control();
         driveWPID = new Robot_DriveWithPID();
-        autonomouscommands = new Autonomous_Commands();
+        liftWithPID = new LiftWithPID();
 
 
         //hatchLow = new HatchLow();
@@ -95,7 +95,8 @@ public class Robot extends TimedRobot {
     }
     @Override
     public void robotPeriodic() {
-  
+        SmartDashboard.putNumber("POT", RobotMap.tiltakePot.get());
+        
     }
 
     /**
@@ -134,6 +135,9 @@ public class Robot extends TimedRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+        SmartDashboard.putNumber("Kp", RobotMap.intakeP);
+        SmartDashboard.putNumber("Ki", RobotMap.intakeI);
+        SmartDashboard.putNumber("Kd", RobotMap.intakeD);
     }
 
     /**
@@ -141,9 +145,10 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        RobotMap.liftP = SmartDashboard.getNumber("Kp", RobotMap.liftP);
-        RobotMap.liftI = SmartDashboard.getNumber("Ki", RobotMap.liftI);
-        RobotMap.liftD = SmartDashboard.getNumber("Kd", RobotMap.liftD);
+
+        RobotMap.intakeP = SmartDashboard.getNumber("Kp", RobotMap.intakeP);
+        RobotMap.intakeI = SmartDashboard.getNumber("Ki", RobotMap.intakeI);
+        RobotMap.intakeD = SmartDashboard.getNumber("Kd", RobotMap.intakeD);
         driveWPID.Main_Drive();
         Scheduler.getInstance().run();
     
