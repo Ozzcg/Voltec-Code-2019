@@ -78,7 +78,7 @@ public class Robot_TilTake extends PIDSubsystem {
 
     @Override
     protected double returnPIDInput() {
-        ret = RobotMap.tiltakePot.pidGet();
+        ret = RobotMap.tiltakePot.get();
         return ret;
     }
 

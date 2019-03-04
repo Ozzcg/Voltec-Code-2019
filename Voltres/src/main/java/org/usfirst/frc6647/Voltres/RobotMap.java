@@ -357,7 +357,7 @@ public class RobotMap{
 
         tilTake.set(ControlMode.PercentOutput,0);
 
-        tiltakePot = new AnalogPotentiometer(AI_POT_PORT);
+        tiltakePot = new AnalogPotentiometer(AI_POT_PORT, 3600, -8);
         camServo = new Servo(PWM_SERVO_PORT);
 
 

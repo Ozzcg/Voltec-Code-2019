@@ -149,6 +149,7 @@ public class Robot extends TimedRobot {
         RobotMap.intakeP = SmartDashboard.getNumber("Kp", RobotMap.intakeP);
         RobotMap.intakeI = SmartDashboard.getNumber("Ki", RobotMap.intakeI);
         RobotMap.intakeD = SmartDashboard.getNumber("Kd", RobotMap.intakeD);
+        SmartDashboard.getNumber("Angle",RobotMap.tiltakePot.get());
         driveWPID.Main_Drive();
         Scheduler.getInstance().run();
     
