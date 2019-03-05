@@ -23,9 +23,9 @@ public class LiftWithPID extends PIDSubsystem {
     // Intert a subsystem name and PID values here
     super("SubsystemName", RobotMap.liftP, RobotMap.liftI, RobotMap.liftD);
     // Use these to get going:
-    setInputRange(0,  360000);
-    setOutputRange(-1, 1);
-    setAbsoluteTolerance(20);
+    setInputRange(-3600000,  360000);
+    setOutputRange(-0.8, 0.8);
+    setAbsoluteTolerance(200);
     getPIDController().setContinuous(true);
   }
   public void setPoint(int position){
@@ -59,6 +59,6 @@ public class LiftWithPID extends PIDSubsystem {
   protected void usePIDOutput(double output) {
     // Use output to drive your system, like a motor
     // e.g. yourMotor.set(output);
-    RobotMap.liftMain.set(-output);
+    RobotMap.liftMain.set(output);
   }
 }

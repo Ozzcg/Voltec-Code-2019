@@ -192,10 +192,9 @@ public class RobotMap{
     public static double chassisMidD = 0.0;
     public static double chassisMidF = 0.0;
 
-    public static double liftP = 0.00001;
-    public static double liftI = 0.0;
-    public static double liftD = 0.0;
-    public static double liftF = 0.0;
+    public static double liftP = 0.00004;
+    public static double liftI = 0.0000009;
+    public static double liftD = 0.00005;
 
     public static double intakeP = 2.95;
     public static double intakeI = 0.3;
@@ -206,6 +205,9 @@ public class RobotMap{
     public static final int hatchLv1 = 16500;
     public static final int hatchLv2 = 195000;
     public static final int hatchLv3 = 307000;
+
+    public static final int ballfloor = 19000;
+    public static final int ballLevel2 = 22000; 
 
     public static final int cargoLv1 = 89000;
     public static final int cargoLv2 = 24100;

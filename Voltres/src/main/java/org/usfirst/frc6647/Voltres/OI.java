@@ -169,15 +169,17 @@ public class OI {
         */
 
 
-        sButton4.whileHeld(new LiftUpManual());
-        sButton1.whileHeld(new LiftDownManual());
+        sButton6.whileHeld(new LiftUpManual());
+        sButton5.whileHeld(new LiftDownManual());
         
         
         //sButton1.whileHeld(new TilTake());
 
         //sButton4.whenPressed(new LatchH());
-        
-        sButton2.whileHeld(new HatchMid());
+        sButton1.whileHeld(new HatchLow());
+        sButton3.whileHeld(new HatchMid());
+        sButton2.whileHeld(new GetBallFloor());
+        sButton4.whileHeld(new BallMid());
 
         /*
         sButton2.whileHeld(new HatchLow());

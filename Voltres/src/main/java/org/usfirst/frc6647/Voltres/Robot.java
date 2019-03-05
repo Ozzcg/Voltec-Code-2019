@@ -138,9 +138,9 @@ public class Robot extends TimedRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
-        SmartDashboard.putNumber("Kp", RobotMap.intakeP);
-        SmartDashboard.putNumber("Ki", RobotMap.intakeI);
-        SmartDashboard.putNumber("Kd", RobotMap.intakeD);
+        SmartDashboard.putNumber("Kp", RobotMap.liftP);
+        SmartDashboard.putNumber("Ki", RobotMap.liftI);
+        SmartDashboard.putNumber("Kd", RobotMap.liftD);
     }
 
     /**
@@ -149,9 +149,9 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
 
-        RobotMap.intakeP = SmartDashboard.getNumber("Kp", RobotMap.intakeP);
-        RobotMap.intakeI = SmartDashboard.getNumber("Ki", RobotMap.intakeI);
-        RobotMap.intakeD = SmartDashboard.getNumber("Kd", RobotMap.intakeD);
+        RobotMap.liftP = SmartDashboard.getNumber("Kp", RobotMap.liftP);
+        RobotMap.liftI = SmartDashboard.getNumber("Ki", RobotMap.liftI);
+        RobotMap.liftD = SmartDashboard.getNumber("Kd", RobotMap.liftD);
         //driveWPID.Main_Drive();
         robotDrive.Main_Drive();
         Scheduler.getInstance().run();
