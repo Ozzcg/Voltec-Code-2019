@@ -249,8 +249,8 @@ public class RobotMap{
 
         cylinderWheels.setInverted(false);
         ////
-        frontLeft.configClosedloopRamp(RAMPDRIVE, 0);
-        frontLeft.configOpenloopRamp(RAMPDRIVE, 0);
+        frontLeft.configClosedloopRamp(RAMPDRIVE, 20);
+        frontLeft.configOpenloopRamp(RAMPDRIVE, 20);
 
         //Quad Encoder Left
         frontLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
@@ -262,8 +262,8 @@ public class RobotMap{
         frontLeft.config_kF(0, chassisLeftF);
 
         ////
-        frontRight.configClosedloopRamp(RAMPDRIVE, 0);
-        frontRight.configOpenloopRamp(RAMPDRIVE, 0);
+        frontRight.configClosedloopRamp(RAMPDRIVE, 20);
+        frontRight.configOpenloopRamp(RAMPDRIVE, 20);
         //Quad Encoder Right
 
         frontRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
@@ -274,8 +274,8 @@ public class RobotMap{
         frontRight.config_kD(0, chassisRightD);
         frontRight.config_kF(0, chassisRightF);
         ////
-       hWheel.configClosedloopRamp(RAMPDRIVE, 0);
-        //hWheel.configOpenloopRamp(RAMPDRIVE, 0);
+       hWheel.configClosedloopRamp(RAMPDRIVE, 1000);
+        hWheel.configOpenloopRamp(RAMPDRIVE, 1000);
 
         //Quad Encoder Left
         hWheel.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);

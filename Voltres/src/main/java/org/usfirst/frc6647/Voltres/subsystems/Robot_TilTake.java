@@ -14,6 +14,7 @@ package org.usfirst.frc6647.Voltres.subsystems;
 import org.usfirst.frc6647.Voltres.RobotMap;
 
 import org.usfirst.frc6647.Voltres.commands.*;
+import org.usfirst.frc6647.Voltres.Robot;
 
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -40,7 +41,7 @@ public class Robot_TilTake extends PIDSubsystem {
         super("Robot_TilTake", RobotMap.intakeP, RobotMap.intakeI, RobotMap.intakeD);
         tilTake = RobotMap.tilTake;
         a_pot = RobotMap.tiltakePot;
-        setInputRange(0, 1);
+        setInputRange(.920, 1);
         setOutputRange(-1, 1);
         setAbsoluteTolerance(.00005);
         getPIDController().setContinuous(true);
@@ -60,11 +61,13 @@ public class Robot_TilTake extends PIDSubsystem {
     }
 
     public void Tilt_Up(){
-        tilTake.set(ControlMode.PercentOutput, tilt_up_speed*direction1);
+        //tilTake.set(ControlMode.PercentOutput, tilt_up_speed*direction1);
+        tilTake.set(ControlMode.PercentOutput, Robot.oi.joystick2.getRawAxis(3)*direction1*0.8);
     }
 
     public void Tilt_Down(){
-        tilTake.set(ControlMode.PercentOutput, tilt_down_speed*direction2);
+        //tilTake.set(ControlMode.PercentOutput, tilt_down_speed*direction2);
+        tilTake.set(ControlMode.PercentOutput, Robot.oi.joystick2.getRawAxis(2)*direction2*0.6);
     }
 
     @Override
@@ -78,7 +81,7 @@ public class Robot_TilTake extends PIDSubsystem {
 
     @Override
     protected double returnPIDInput() {
-        ret = RobotMap.tiltakePot.pidGet();
+        ret = RobotMap.tiltakePot.pidGet() - .920;
         return ret;
     }
 

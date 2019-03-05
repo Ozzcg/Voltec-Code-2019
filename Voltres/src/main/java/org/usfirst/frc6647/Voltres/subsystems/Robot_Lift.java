@@ -34,7 +34,7 @@ public class Robot_Lift extends Subsystem {
     private static int direction1 = 1;
     private static int direction2 = -1;
     private static double lift_up_speed = 0.8;
-    private static double lift_down_speed = 0.8;
+    private static double lift_down_speed = 0.6;
     private static Encoder lift_Encoder;
     private static DigitalInput downlimit;
 
