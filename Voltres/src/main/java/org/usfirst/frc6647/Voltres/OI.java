@@ -156,6 +156,7 @@ public class OI {
         */
 
         Button3.whileHeld(new LatchH());
+        Button14.whileHeld(new Reset_Encoders());
 
         /*
         Button4.whileHeld(new TilTakeUpManual());
@@ -163,7 +164,7 @@ public class OI {
         Button6.whileHeld(new LiftUpManual());
         Button5.whileHeld(new LiftDownManual());
         Button1.whileHeld(new HAB3());
-        //Button14.whileHeld(new Reset_Encoders());
+        Button14.whileHeld(new Reset_Encoders());
         Button13.whileHeld(new MoveBackHAB());
         */
 
@@ -176,7 +177,10 @@ public class OI {
 
         //sButton4.whenPressed(new LatchH());
         
-        /*sButton2.whileHeld(new HatchLow());
+        sButton2.whileHeld(new HatchMid());
+
+        /*
+        sButton2.whileHeld(new HatchLow());
         sButton3.whileHeld(new HatchMid());
         sButton4.whileHeld(new HatchHigh());
         */
