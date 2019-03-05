@@ -33,7 +33,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot_Drive extends Subsystem {
 
     private static final double TOLERANCE=0.15;  //tolerancia del joystick(quita el error)
-	private static final double LIMITER=0.8;  //Por si quieren limitar la velocidad del drive
+	private static final double LIMITER=0.85;  //Por si quieren limitar la velocidad del drive
     private static int direction = 1;  //para invertir los ejes si necesario
     private static WPI_TalonSRX lefTalon;
     private static WPI_TalonSRX righTalon;
@@ -84,15 +84,53 @@ public class Robot_Drive extends Subsystem {
     public void Main_Drive(){
         Joystick joystick = Robot.oi.joystick1;
 
+        // For Differential Drive
+
+
+        /*
         double  LeftStickY=mapDoubleT(joystick.getRawAxis(0),TOLERANCE,1,0,1)*direction*-1, 
                 LeftStickX=mapDoubleT(joystick.getRawAxis(1),TOLERANCE,1,0,1)*direction,
-                RightStickX=mapDoubleT(joystick.getRawAxis(2), TOLERANCE, 1, 0, 1)*direction;
+                RightStickX=mapDoubleT(joystick.getRawAxis(2), TOLERANCE, 1, 0, 1);
 
-        diffDrive.arcadeDrive(LeftStickY*LIMITER, LeftStickX*LIMITER);
-        hWheel.set(ControlMode.PercentOutput, RightStickX);
+                diffDrive.arcadeDrive(LeftStickY*LIMITER, LeftStickX*LIMITER*0.8);
+
+                hWheel.set(ControlMode.PercentOutput, RightStickX);
+        */
+    
+
+                //////////////////////////////////////
+
+        //For Tank Drive/////////////
+
+
+        
+        double  LeftStickY=mapDoubleT(joystick.getRawAxis(1),TOLERANCE,1,0,1)*direction, 
+            RightStickY=mapDoubleT(joystick.getRawAxis(5),TOLERANCE,1,0,1)*direction,
+            analogLT= (joystick.getRawAxis(3) + 1)/2,
+            analogRT=(joystick.getRawAxis(4) + 1)/2;
+
+            if (Robot.oi.Button7.get()){
+                hWheel.set(ControlMode.PercentOutput, -analogLT*0.7);
+            }else{ if (Robot.oi.Button8.get()){
+                hWheel.set(ControlMode.PercentOutput, analogRT*0.7);
+                }
+                else{
+                    hWheel.set(ControlMode.PercentOutput, 0);
+                }
+            }
+
+        lefTalon.set(ControlMode.PercentOutput,LeftStickY*LIMITER*0.95);
+        righTalon.set(ControlMode.PercentOutput,RightStickY*LIMITER);
+            
+        
+        
+        /////////////////////////////////////
+        
 
         SmartDashboard.putNumber("EncoderL chassis", lefTalon.getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("EncoderR chassis", righTalon.getSelectedSensorPosition(0));
+        SmartDashboard.putNumber("EncoderR chassis", righTalon.getSelectedSensorPosition(0));
+        //SmartDashboard.putNumber("LT Value", analogLT);
+        //SmartDashboard.putNumber("RT Value", analogRT);
     }
 
     public double getSensorL(){
