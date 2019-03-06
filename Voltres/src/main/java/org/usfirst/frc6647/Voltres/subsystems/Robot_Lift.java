@@ -64,7 +64,6 @@ public class Robot_Lift extends Subsystem {
         }else{
             liftMain.set(ControlMode.PercentOutput, lift_down_speed*direction2);
         }
-        SmartDashboard.putNumber("Lift Encoder Value", lift_Encoder.get());
     }
 
     @Override

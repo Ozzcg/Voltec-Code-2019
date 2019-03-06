@@ -41,7 +41,7 @@ public class Robot_TilTake extends PIDSubsystem {
         super("Robot_TilTake", RobotMap.intakeP, RobotMap.intakeI, RobotMap.intakeD);
         tilTake = RobotMap.tilTake;
         a_pot = RobotMap.tiltakePot;
-        setInputRange(.920, 1);
+        setInputRange(.870, .970);
         setOutputRange(-1, 1);
         setAbsoluteTolerance(.00005);
         getPIDController().setContinuous(true);

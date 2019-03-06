@@ -206,8 +206,8 @@ public class RobotMap{
     public static final int hatchLv2 = 195000;  //bien - Funciona para cargo balls
     public static final int hatchLv3 = 307000;
 
-    public static final int ballfloor = 121000;    //bien
-    public static final int ballLevel2 = 165000;    //bien
+    public static final int ballfloor = 126000;    //bien check
+    public static final int ballLevel2 = 210000;    //bien
 
     public static final int cargoLv1 = 89000;
     public static final int cargoLv2 = 165000;
