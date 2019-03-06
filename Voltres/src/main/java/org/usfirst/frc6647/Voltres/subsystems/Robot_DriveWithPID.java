@@ -48,6 +48,11 @@ public class Robot_DriveWithPID extends Subsystem {
 		Main_Drive();
 	}
 
+	public void moveChassis(double vel, double rotation)
+	{
+		diffDrive.arcadeDrive(vel, rotation);
+	}
+
 	public void Rotate_Robot(boolean toLeft, double velocity) {
 		if(toLeft) {
 			diffDrive.tankDrive(velocity, velocity);

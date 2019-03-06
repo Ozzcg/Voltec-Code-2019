@@ -20,10 +20,19 @@ public class Vision extends Subsystem {
 	// Copy the items below, change variable names as needed and especially change
 	// the SPI port used eg; Port.kOnboardCS[0-3] or Port.
 	
-	public int toleranceLeftTarget = 30;
-	public int toleranceRightTarget = 30;
-	public int toleranceRatio = 20;
+	public int setpointWidth = 17;
+	public int toleranceWidth = 5;
 
+	public int setpointHeight = 30;
+	public int toleranceHeight = 5;
+
+	public int setpointXRight = 182;
+
+	public int setpointXLeft = 114;
+
+	public int toleranceX = 6;
+
+	
 
 	public PixySPI pixy1;
 	Port port = Port.kOnboardCS0;
@@ -101,25 +110,31 @@ public class Vision extends Subsystem {
 		}
 		
 	}
-
-	public double getLeftRatio()
+	
+	// 25 - 35
+	public boolean onHeight()
 	{
-		return leftPacket.Width / leftPacket.Height;
+		return (leftPacket.Height >= setpointHeight - toleranceHeight && leftPacket.Height <= setpointHeight + toleranceHeight);
 	}
 
-	public double getRightRatio()
+	// 173
+	// 190
+	public boolean isAlignedRight()
 	{
-		return rightPacket.Width / rightPacket.Height;
+		return (rightPacket.X >= setpointXRight - toleranceX && rightPacket.X <= setpointXRight + toleranceX);
 	}
 
-	public boolean isAlignedRotation()
+	// 105 
+	// 122
+	public boolean isAlignedLeft()
 	{
-		return (leftPacket.X < toleranceLeftTarget) && (rightPacket.X > 320 - toleranceRightTarget);
+		return (leftPacket.X >= setpointXLeft - toleranceX && leftPacket.X <= setpointXLeft + toleranceX);
 	}
 
-	public boolean isAlignedH()
+	// 12 - 22
+	public boolean onWidth()
 	{
-		return Math.abs(leftPacket.Width - rightPacket.Width) <= toleranceRatio;
+		return (leftPacket.Width >= setpointWidth - toleranceWidth && leftPacket.Width <= setpointWidth + toleranceWidth) &&  (rightPacket.Width >= setpointWidth - toleranceWidth && rightPacket.Width <= setpointWidth + toleranceWidth);
 	}
 
 

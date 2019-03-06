@@ -148,7 +148,8 @@ public class OI {
         Button2.whileHeld(new TilTakeDownManual());
         Button6.whileHeld(new LiftUpManual());
         Button5.whileHeld(new LiftDownManual());
-        Button1.whileHeld(new HAB3());
+        //Button1.whileHeld(new HAB3());
+        Button1.whileHeld(new VisionAlign());
         Button14.whileHeld(new Reset_Encoders());
         Button13.whileHeld(new MoveBackHAB());
 
