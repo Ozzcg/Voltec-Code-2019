@@ -33,7 +33,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot_Drive extends Subsystem {
 
     private static final double TOLERANCE=0.15;  //tolerancia del joystick(quita el error)
-	private static final double LIMITER=0.85;  //Por si quieren limitar la velocidad del drive
+	private static double LIMITER = 0.85;  //Por si quieren limitar la velocidad del drive
     private static int direction = 1;  //para invertir los ejes si necesario
     private static WPI_TalonSRX lefTalon;
     private static WPI_TalonSRX righTalon;
@@ -219,5 +219,12 @@ public class Robot_Drive extends Subsystem {
         cylWheel.set(ControlMode.PercentOutput, 0.0);
     }
 
+    public void change_LimiterUP(){
+        LIMITER=0.85;
+    }
+
+    public void change_LimiterDOWN(){
+        LIMITER=0.7;
+    }
 }
 

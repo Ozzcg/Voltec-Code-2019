@@ -156,10 +156,12 @@ public class OI {
         */
 
         Button3.whileHeld(new LatchH());
-        Button14.whileHeld(new Reset_Encoders());
+        sButton8.whileHeld(new Reset_Encoders());
 
+        
+        Button4.whileHeld(new LimiterMaxSpeed());
+        Button1.whileHeld(new LimiterSlowSpeed());
         /*
-        Button4.whileHeld(new TilTakeUpManual());
         Button2.whileHeld(new TilTakeDownManual());
         Button6.whileHeld(new LiftUpManual());
         Button5.whileHeld(new LiftDownManual());

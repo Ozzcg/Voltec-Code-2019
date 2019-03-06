@@ -194,7 +194,7 @@ public class RobotMap{
 
     public static double liftP = 0.00004;
     public static double liftI = 0.0000009;
-    public static double liftD = 0.00009;
+    public static double liftD = 0.0001;
 
     public static double intakeP = 2.95;
     public static double intakeI = 0.3;
@@ -202,15 +202,15 @@ public class RobotMap{
     //////////////////////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////ELEVATOR VALUES////////////////////////////////////////
-    public static final int hatchLv1 = 16500;
-    public static final int hatchLv2 = 195000;
+    public static final int hatchLv1 = 17500;   //bien
+    public static final int hatchLv2 = 195000;  //bien - Funciona para cargo balls
     public static final int hatchLv3 = 307000;
 
-    public static final int ballfloor = 119000;
-    public static final int ballLevel2 = 130000; 
+    public static final int ballfloor = 121000;    //bien
+    public static final int ballLevel2 = 165000;    //bien
 
     public static final int cargoLv1 = 89000;
-    public static final int cargoLv2 = 24100;
+    public static final int cargoLv2 = 165000;
     public static final int cargoLv3 = 350000;
     public static final int cargoship = 160000;
 
