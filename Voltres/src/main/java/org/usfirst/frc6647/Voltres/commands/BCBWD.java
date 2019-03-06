@@ -30,7 +30,7 @@ public class BCBWD extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return !Robot.oi.sButton7.get();
+    return !Robot.oi.sButton1.get();
   }
 
   // Called once after isFinished returns true

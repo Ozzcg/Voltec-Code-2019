@@ -9,7 +9,6 @@ package org.usfirst.frc6647.Voltres;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfigUtil;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
@@ -17,11 +16,9 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
@@ -203,8 +200,8 @@ public class RobotMap{
 
     ///////////////////////////////////ELEVATOR VALUES////////////////////////////////////////
     public static final int hatchLv1 = 17500;   //bien
-    public static final int hatchLv2 = 195000;  //bien - Funciona para cargo balls
-    public static final int hatchLv3 = 307000;
+    public static final int hatchLv2 = 197000;  //bien - Funciona para cargo balls
+    public static final int hatchLv3 = 357000;  //valor sacado en base a diferencia entre hatches
 
     public static final int ballfloor = 126000;    //bien check
     public static final int ballLevel2 = 210000;    //bien

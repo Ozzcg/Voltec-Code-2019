@@ -178,10 +178,14 @@ public class OI {
         //sButton1.whileHeld(new TilTake());
 
         //sButton4.whenPressed(new LatchH());
+
+        /////////PARA COMPETENCIA////////
+        
         sButton1.whileHeld(new HatchLow());
         sButton3.whileHeld(new HatchMid());
         sButton2.whileHeld(new GetBallFloor());
         sButton4.whileHeld(new BallMid());
+        
 
         /*
         sButton2.whileHeld(new HatchLow());
@@ -195,6 +199,13 @@ public class OI {
         sButton7.whenPressed(new BCBWD());
         sButton8.whenPressed(new FCBWD());
         sButton1.whileHeld(new TilTake());
+        */
+
+        /*
+        sButton4.whenPressed(new BCFWD());
+        sButton3.whenPressed(new FCFWD());
+        sButton1.whenPressed(new BCBWD());
+        sButton2.whenPressed(new FCBWD());
         */
 
 
