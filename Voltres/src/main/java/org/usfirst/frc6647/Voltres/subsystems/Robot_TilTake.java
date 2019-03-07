@@ -13,13 +13,9 @@ package org.usfirst.frc6647.Voltres.subsystems;
 
 import org.usfirst.frc6647.Voltres.RobotMap;
 
-import org.usfirst.frc6647.Voltres.commands.*;
 import org.usfirst.frc6647.Voltres.Robot;
 
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -41,7 +37,7 @@ public class Robot_TilTake extends PIDSubsystem {
         super("Robot_TilTake", RobotMap.intakeP, RobotMap.intakeI, RobotMap.intakeD);
         tilTake = RobotMap.tilTake;
         a_pot = RobotMap.tiltakePot;
-        setInputRange(.870, .970);
+        setInputRange(.920, 1);
         setOutputRange(-1, 1);
         setAbsoluteTolerance(.00005);
         getPIDController().setContinuous(true);
@@ -72,7 +68,7 @@ public class Robot_TilTake extends PIDSubsystem {
 
     @Override
     public void periodic() {
-        // Put code here to be run every loop
+        SmartDashboard.putNumber("Pot Value", a_pot.get());
     }
 
     public void stop(){
@@ -81,7 +77,7 @@ public class Robot_TilTake extends PIDSubsystem {
 
     @Override
     protected double returnPIDInput() {
-        ret = RobotMap.tiltakePot.pidGet() - .920;
+        ret = a_pot.pidGet() - .920;
         return ret;
     }
 

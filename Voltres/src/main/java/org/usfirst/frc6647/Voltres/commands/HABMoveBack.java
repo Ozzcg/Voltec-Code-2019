@@ -7,13 +7,15 @@
 
 package org.usfirst.frc6647.Voltres.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc6647.Voltres.Robot;
 
-public class BCBWD extends Command {
-  public BCBWD() {
+import edu.wpi.first.wpilibj.command.Command;
+
+public class HABMoveBack extends Command {
+  public HABMoveBack() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(Robot.robotDrive);
   }
 
   // Called just before this Command runs the first time
@@ -24,25 +26,25 @@ public class BCBWD extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.robotDrive.HABBack_Down();
+    Robot.robotDrive.HAB_Back();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return !Robot.oi.sButton3.get();
+    return !Robot.oi.sButton5.get();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
     Robot.robotDrive.HABBack_Stop();
-    Robot.robotDrive.HABFront_Stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

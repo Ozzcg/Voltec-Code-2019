@@ -145,13 +145,14 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
+        
+        Scheduler.getInstance().run();
 
         RobotMap.liftP = SmartDashboard.getNumber("Kp", RobotMap.liftP);
         RobotMap.liftI = SmartDashboard.getNumber("Ki", RobotMap.liftI);
         RobotMap.liftD = SmartDashboard.getNumber("Kd", RobotMap.liftD);
         //driveWPID.Main_Drive();
         robotDrive.Main_Drive();
-        Scheduler.getInstance().run();
 
         if (oi.joystick2.getRawAxis(3)>0.2){
             tilTake.Tilt_Up();

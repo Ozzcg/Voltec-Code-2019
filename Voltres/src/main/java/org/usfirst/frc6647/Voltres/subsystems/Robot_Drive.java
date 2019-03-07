@@ -49,7 +49,7 @@ public class Robot_Drive extends Subsystem {
     */
 
 
-    private static DifferentialDrive diffDrive;
+    //private static DifferentialDrive diffDrive;
 
 
     //private static double statepiston=1;
@@ -59,7 +59,7 @@ public class Robot_Drive extends Subsystem {
         lefTalon = RobotMap.frontLeft;
         righTalon = RobotMap.frontRight;
 
-        diffDrive = new DifferentialDrive( lefTalon, righTalon);
+        //diffDrive = new DifferentialDrive( lefTalon, righTalon);
 
         cylWheel = RobotMap.cylinderWheels;
 
@@ -199,11 +199,15 @@ public class Robot_Drive extends Subsystem {
     }
 
     public void HAB_Front(){
-        cylWheel.set(ControlMode.PercentOutput, 0.3);
+        cylWheel.set(ControlMode.PercentOutput, 0.7);
     }
 
     public void HAB_Back(){
-        cylWheel.set(ControlMode.PercentOutput, -0.3);
+        cylWheel.set(ControlMode.PercentOutput, -0.7);
+    }
+
+    public void HAB_Stop(){
+        cylWheel.set(ControlMode.PercentOutput, 0);
     }
     
     @Override
