@@ -11,6 +11,7 @@
 
 package org.usfirst.frc6647.Voltres;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -70,6 +71,9 @@ public class Robot extends TimedRobot {
         robotDrive = new Robot_Drive();
         control = new Robot_Control();
         liftWithPID = new LiftWithPID();
+
+        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+        camera.setResolution(640,480);
 
 
         //hatchLow = new HatchLow();
