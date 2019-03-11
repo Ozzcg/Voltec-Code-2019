@@ -68,7 +68,6 @@ public class Robot_Intake extends Subsystem {
             statepiston=statepiston*-1;
         }
         */
-        
     }
     /*
     public void Close_H(){

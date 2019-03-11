@@ -33,7 +33,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot_Drive extends Subsystem {
 
     private static final double TOLERANCE=0.15;  //tolerancia del joystick(quita el error)
-	private static double LIMITER = 0.85;  //Por si quieren limitar la velocidad del drive
+	private static double LIMITER = 0.75;  //Por si quieren limitar la velocidad del drive
     private static int direction = 1;  //para invertir los ejes si necesario
     private static WPI_TalonSRX lefTalon;
     private static WPI_TalonSRX righTalon;
@@ -82,6 +82,8 @@ public class Robot_Drive extends Subsystem {
     }
 
     public void Main_Drive(){
+
+        int angle = Robot.oi.joystick1.getPOV();
         Joystick joystick = Robot.oi.joystick1;
 
         // For Differential Drive
@@ -119,9 +121,20 @@ public class Robot_Drive extends Subsystem {
                 }
             }
 
-        lefTalon.set(ControlMode.PercentOutput,LeftStickY*LIMITER*0.95);
-        righTalon.set(ControlMode.PercentOutput,RightStickY*LIMITER);
-            
+            if (angle==-1){
+                lefTalon.set(ControlMode.PercentOutput,LeftStickY*LIMITER*0.95);
+                righTalon.set(ControlMode.PercentOutput,RightStickY*LIMITER);
+            }else {
+                if(angle == 0){
+                    lefTalon.set(ControlMode.PercentOutput,-0.8*LIMITER*0.95);
+                    righTalon.set(ControlMode.PercentOutput,-0.8*LIMITER);
+            }
+                else{ if(angle == 180){
+                lefTalon.set(ControlMode.PercentOutput,0.8*LIMITER*0.95);
+                righTalon.set(ControlMode.PercentOutput,0.8*LIMITER);
+            }
+            }
+        }
         
         
         /////////////////////////////////////
@@ -224,11 +237,11 @@ public class Robot_Drive extends Subsystem {
     }
 
     public void change_LimiterUP(){
-        LIMITER=0.85;
+        LIMITER=0.75;
     }
 
     public void change_LimiterDOWN(){
-        LIMITER=0.7;
+        LIMITER=0.6;
     }
 }
 

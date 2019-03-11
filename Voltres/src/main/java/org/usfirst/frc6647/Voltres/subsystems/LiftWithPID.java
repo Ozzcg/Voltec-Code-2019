@@ -8,7 +8,8 @@
 package org.usfirst.frc6647.Voltres.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+//import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import org.usfirst.frc6647.Voltres.RobotMap;
 
@@ -32,7 +33,7 @@ public class LiftWithPID extends PIDSubsystem {
   private static Encoder lift_Encoder;
   private static DigitalInput downlimit;
 
-  private static WPI_TalonSRX liftMain;
+  private static WPI_VictorSPX liftMain;
 
       /*
     private static WPI_VictorSPX liftMain;

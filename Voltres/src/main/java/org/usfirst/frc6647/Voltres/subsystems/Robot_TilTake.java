@@ -68,7 +68,7 @@ public class Robot_TilTake extends PIDSubsystem {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Pot Value", a_pot.get());
+        //SmartDashboard.putNumber("Pot Value", a_pot.get());
     }
 
     public void stop(){

@@ -36,7 +36,7 @@ public class RobotMap{
     private static final int TALON_H_WHEEL_PORT = 3;                    //TALON H WHEEL
 
     //Talon en chasis de prueba
-    private static final int VICTOR_CYLINDER_WHEELS_PORT = 11;          //WHEELS VICTOR
+    //private static final int VICTOR_CYLINDER_WHEELS_PORT = 11;          //WHEELS VICTOR
 
     private static final int VICTOR_INTAKE_MOTOR_RIGHT = 1;             //INTAKE VICTOR LEFT
     private static final int VICTOR_INTAKE_MOTOR_LEFT = 5;              //INTAKE VICTOR LEFT
@@ -90,7 +90,7 @@ public class RobotMap{
 	
     ////////////////////////////////////SEÑALES DE LA PCM////////////////////////////////////
 
-    private static final int SOL_FORWARD_H_PORT = 2;                   //H LEFT PISTON FORWARD
+    private static final int SOL_FORWARD_H_PORT = 3;                   //H LEFT PISTON FORWARD
 	//private static final int SOL_REVERSE_H_PORT = 1;                   //H LEFT PISTON REVERSE
 
 
@@ -155,8 +155,8 @@ public class RobotMap{
     
     //////////////////////////////////////////LIFT////////////////////////////////////////////
 
-    public static WPI_TalonSRX liftMain;
-    public static WPI_TalonSRX liftFollower;
+    public static WPI_VictorSPX liftMain;
+    public static WPI_VictorSPX liftFollower;
     /*
     public static WPI_VictorSPX liftMain;
     public static WPI_VictorSPX liftFollower;
@@ -190,8 +190,8 @@ public class RobotMap{
     public static double chassisMidF = 0.0;
 
     public static double liftP = 0.00004;
-    public static double liftI = 0.0000009;
-    public static double liftD = 0.0001;
+    public static double liftI = 0.0000009015;
+    public static double liftD = 0.000132;
 
     public static double intakeP = 2.95;
     public static double intakeI = 0.3;
@@ -199,12 +199,13 @@ public class RobotMap{
     //////////////////////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////ELEVATOR VALUES////////////////////////////////////////
-    public static final int hatchLv1 = 17500;   //bien
-    public static final int hatchLv2 = 197000;  //bien - Funciona para cargo balls
-    public static final int hatchLv3 = 357000;  //valor sacado en base a diferencia entre hatches
+    public static final int hatchLv1 = 27000;   //bien
+    public static final int hatchLv2 = 310000;  //bien - Funciona para cargo balls
+    public static final int hatchLv3 = 375000;  //valor sacado en base a diferencia entre hatches
+    public static final int floorlevel = 375000;
 
-    public static final int ballfloor = 126000;    //bien check
-    public static final int ballLevel2 = 210000;    //bien
+    public static final int ballfloor = 145000;    //bien check -17500
+    public static final int ballLevel2 = 235000;    //bien
 
     public static final int cargoLv1 = 89000;
     public static final int cargoLv2 = 165000;
@@ -229,10 +230,10 @@ public class RobotMap{
 
         hWheel = new WPI_TalonSRX(TALON_H_WHEEL_PORT);
 
-        cylinderWheels = new WPI_TalonSRX(VICTOR_CYLINDER_WHEELS_PORT);
-        /*
-        cylinderWheels = new WPI_VictorSPX(VICTOR_CYLINDER_WHEELS_PORT);
-        */
+        //cylinderWheels = new WPI_TalonSRX(VICTOR_CYLINDER_WHEELS_PORT);
+        
+        //cylinderWheels = new WPI_VictorSPX(VICTOR_CYLINDER_WHEELS_PORT);
+        
             
         frontLeft.setInverted(true);
         backLeft.setInverted(true);
@@ -244,9 +245,9 @@ public class RobotMap{
         backLeft.setNeutralMode(NeutralMode.Coast);
         backRight.setNeutralMode(NeutralMode.Coast);
 
-        hWheel.setInverted(false);
+        hWheel.setInverted(true);
 
-        cylinderWheels.setInverted(false);
+        //cylinderWheels.setInverted(false);
         ////
         frontLeft.configClosedloopRamp(RAMPDRIVE, 20);
         frontLeft.configOpenloopRamp(RAMPDRIVE, 20);
@@ -347,7 +348,7 @@ public class RobotMap{
         lowLimitTilt = new DigitalInput(DI_TILTAKE_LIMIT_DOWN_PORT);
         topLimitTilt = new DigitalInput(DI_TILTAKE_LIMIT_UP_PORT);
 
-        tilTake.setInverted(false);
+        tilTake.setInverted(true);
 
         tilTake.setNeutralMode(NeutralMode.Brake);
 
@@ -365,12 +366,13 @@ public class RobotMap{
             
         //////////////////////////////////////////LIFT////////////////////////////////////////////
         
+        /*
         liftMain = new WPI_TalonSRX(VICTOR_LIFT_MOTOR_ENCODER_PORT);
         liftFollower = new WPI_TalonSRX(VICTOR_LIFT_MOTOR_FOLLOWER_PORT);
-        /*
+        */
         liftMain = new WPI_VictorSPX(VICTOR_LIFT_MOTOR_ENCODER_PORT);
         liftFollower = new WPI_VictorSPX(VICTOR_LIFT_MOTOR_FOLLOWER_PORT);
-        */
+        
 
         lowLimitLift = new DigitalInput(DI_LIFT_LIMIT_DOWN_PORT);
         topLimitLift = new DigitalInput(DI_LIFT_LIMIT_UP_PORT);

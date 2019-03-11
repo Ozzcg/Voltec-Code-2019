@@ -28,6 +28,4 @@ public class Robot_Control extends Subsystem {
     	compressor.setClosedLoopControl(false);
     }
 
-    
-    
 }
