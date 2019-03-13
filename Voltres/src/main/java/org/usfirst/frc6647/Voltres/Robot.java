@@ -51,6 +51,7 @@ public class Robot extends TimedRobot {
     public static Robot_Drive robotDrive;
     public static Robot_Control control;
     public static LiftWithPID liftWithPID;
+    public static Vision vision;
 
     public JoystickButton Button2;
     public Joystick joystick1;
@@ -77,7 +78,7 @@ public class Robot extends TimedRobot {
         robotDrive = new Robot_Drive();
         control = new Robot_Control();
         liftWithPID = new LiftWithPID();
-
+        vision = new Vision();
         /*
         UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
         camera.setResolution(640,480);

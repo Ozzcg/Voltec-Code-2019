@@ -181,8 +181,8 @@ public class OI {
         sButton8.whileHeld(new Reset_Encoders());
 
         
-        Button4.whileHeld(new LimiterMaxSpeed());
-        Button1.whileHeld(new LimiterSlowSpeed());
+        Button4.whileHeld(new VisionAlign());
+        //Button1.whileHeld(new LimiterSlowSpeed());
         
         Button2.whileHeld(new LatchH());
         /*Button6.whileHeld(new LiftUpManual());
