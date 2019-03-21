@@ -200,9 +200,9 @@ public class RobotMap{
 
     ///////////////////////////////////ELEVATOR VALUES////////////////////////////////////////
     public static final int hatchLv1 = 27000;   //bien
-    public static final int hatchLv2 = 310000;  //bien - Funciona para cargo balls
-    public static final int hatchLv3 = 375000;  //valor sacado en base a diferencia entre hatches
-    public static final int floorlevel = 375000;
+    public static final int hatchLv2 = 201000;  //bien - Funciona para cargo balls
+    public static final int hatchLv3 = 380000;  //valor sacado en base a diferencia entre hatches
+    public static final int floorlevel = 400000;
 
     public static final int ballfloor = 145000;    //bien check -17500
     public static final int ballLevel2 = 235000;    //bien
