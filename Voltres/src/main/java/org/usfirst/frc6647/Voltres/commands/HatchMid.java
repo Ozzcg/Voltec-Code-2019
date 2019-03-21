@@ -27,7 +27,7 @@ public class HatchMid extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Robot.liftWithPID.setSetpoint(RobotMap.hatchLv2);
+        Robot.liftWithPID.setSetpoint(RobotMap.ballLevel2);
 
     }
 
