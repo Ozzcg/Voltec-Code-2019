@@ -17,7 +17,6 @@ import org.usfirst.frc6647.Voltres.Robot;
 
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -26,8 +25,8 @@ public class Robot_TilTake extends PIDSubsystem {
 
     private static int direction1 = 1;
     private static int direction2 = -1;
-    private static double tilt_up_speed = .8;
-    private static double tilt_down_speed = 0.6;
+    /* private static double tilt_up_speed = .8;
+    private static double tilt_down_speed = 0.6; */
     private static WPI_VictorSPX tilTake;
     private static AnalogPotentiometer a_pot;
     public static double ret;
@@ -84,8 +83,5 @@ public class Robot_TilTake extends PIDSubsystem {
     @Override
     protected void usePIDOutput(double output) {
         tilTake.set(ControlMode.PercentOutput, output);
-
     }
-
 }
-

@@ -8,87 +8,71 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-
 package org.usfirst.frc6647.Voltres.subsystems;
 
 import org.usfirst.frc6647.Voltres.RobotMap;
 
-import org.usfirst.frc6647.Voltres.commands.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
-
-
 public class Robot_Intake extends Subsystem {
 
-    private static int direction1 = -1;
-    private static int direction2 = 1;
-    private static double speed_in = 0.7;
-    private static double speed_out = 0.7;
-    private static WPI_VictorSPX intakeLeft;
-    private static WPI_VictorSPX intakeRight;
-    private static Solenoid H;
-    private static double statepiston=1;
+	private static int direction1 = -1;
+	private static int direction2 = 1;
+	private static double speed_in = 0.7;
+	private static double speed_out = 0.7;
+	private static WPI_VictorSPX intakeLeft;
+	private static WPI_VictorSPX intakeRight;
+	private static Solenoid H;
+	/* private static double statepiston = 1; */
 
-    public Robot_Intake() {
-        intakeLeft = RobotMap.intakeLeft;
-        intakeRight = RobotMap.intakeRight;
-        H = RobotMap.cylinderH;
-    }
-
-    @Override
-    public void initDefaultCommand() {
-        Stop_Intake();
-
-    }
-
-    public void Ball_In(){
-        intakeLeft.set(ControlMode.PercentOutput, speed_in*direction1);
-        intakeRight.set(ControlMode.PercentOutput, speed_in*direction1);
-    }
-
-    public void Ball_Out(){
-        intakeLeft.set(ControlMode.PercentOutput, speed_out*direction2);
-        intakeRight.set(ControlMode.PercentOutput, speed_out*direction2);
-    }
-
-    public void Control_H(boolean value){
-        H.set(value);
-        /*
-        if(statepiston==1) {
-			H.set(true);
-			statepiston=statepiston*-1;
-		}else {
-			H.set(false);
-            statepiston=statepiston*-1;
-        }
-        */
-    }
-    /*
-    public void Close_H(){
-		H.set(true);
+	public Robot_Intake() {
+		intakeLeft = RobotMap.intakeLeft;
+		intakeRight = RobotMap.intakeRight;
+		H = RobotMap.cylinderH;
 	}
-	
-    public void Open_H(){
-		H.set(DoubleSolenoid.Value.kForward);
-    }
-    */
 
-    @Override
-    public void periodic() {
-        // Put code here to be run every loop
+	@Override
+	public void initDefaultCommand() {
+		Stop_Intake();
 
-    }
+	}
 
-    public void Stop_Intake(){
-        intakeLeft.set(ControlMode.PercentOutput, 0.0);
-        intakeRight.set(ControlMode.PercentOutput, 0.0);
-    }
+	public void Ball_In() {
+		intakeLeft.set(ControlMode.PercentOutput, speed_in * direction1);
+		intakeRight.set(ControlMode.PercentOutput, speed_in * direction1);
+	}
+
+	public void Ball_Out() {
+		intakeLeft.set(ControlMode.PercentOutput, speed_out * direction2);
+		intakeRight.set(ControlMode.PercentOutput, speed_out * direction2);
+	}
+
+	public void Control_H(boolean value) {
+		H.set(value);
+		/*
+		 * if(statepiston==1) { H.set(true); statepiston=statepiston*-1; }else {
+		 * H.set(false); statepiston=statepiston*-1; }
+		 */
+	}
+	/*
+	 * public void Close_H(){ H.set(true); }
+	 * 
+	 * public void Open_H(){ H.set(DoubleSolenoid.Value.kForward); }
+	 */
+
+	@Override
+	public void periodic() {
+		// Put code here to be run every loop
+
+	}
+
+	public void Stop_Intake() {
+		intakeLeft.set(ControlMode.PercentOutput, 0.0);
+		intakeRight.set(ControlMode.PercentOutput, 0.0);
+	}
 
 }
-

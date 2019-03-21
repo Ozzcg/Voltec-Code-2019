@@ -12,7 +12,6 @@
 package org.usfirst.frc6647.Voltres;
 
 import org.usfirst.frc6647.Voltres.commands.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -181,7 +180,7 @@ public class OI {
         sButton8.whileHeld(new Reset_Encoders());
 
         
-        Button4.whileHeld(new VisionAlign());
+        Button4.whileHeld(new Align());
         //Button1.whileHeld(new LimiterSlowSpeed());
         
         Button2.whileHeld(new LatchH());
