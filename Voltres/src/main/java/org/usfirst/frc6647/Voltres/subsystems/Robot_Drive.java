@@ -113,7 +113,10 @@ public class Robot_Drive extends Subsystem {
 
             if (Robot.oi.Button7.get()){
                 hWheel.set(ControlMode.PercentOutput, -analogLT*0.7);
-            }else{ if (Robot.oi.Button8.get()){
+            }else if(Robot.oi.Button4.get()){
+                hWheel.set(ControlMode.PercentOutput, Robot.vision.limitOutput());
+            }
+            else{ if (Robot.oi.Button8.get()){
                 hWheel.set(ControlMode.PercentOutput, analogRT*0.7);
                 }
                 else{

@@ -166,7 +166,7 @@ public class OI {
         //SmartDashboard.putNumber("Degrees", joystick1.getDirectionDegrees());
 
         //MELI Mache CONFIG
-        
+        //Button4.whenPressed(new VisionAlignment());
         Button5.whileHeld(new BallIn());
         Button6.whileHeld(new BallOut());
         

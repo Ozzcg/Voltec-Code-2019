@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
     public static Robot_Drive robotDrive;
     public static Robot_Control control;
     public static LiftWithPID liftWithPID;
-
+    public static Vision vision;
     public JoystickButton Button2;
     public Joystick joystick1;
 
@@ -77,6 +77,7 @@ public class Robot extends TimedRobot {
         robotDrive = new Robot_Drive();
         control = new Robot_Control();
         liftWithPID = new LiftWithPID();
+        vision = new Vision();
 
         /*
         UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
@@ -183,7 +184,7 @@ public class Robot extends TimedRobot {
         */
         //driveWPID.Main_Drive();
         robotDrive.Main_Drive();
-
+        vision.run();
         if (oi.joystick2.getRawAxis(3)>0.2){
             tilTake.Tilt_Up();
             }else{
