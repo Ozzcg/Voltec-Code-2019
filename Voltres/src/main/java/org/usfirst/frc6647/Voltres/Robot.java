@@ -109,7 +109,10 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         SmartDashboard.putNumber("Degrees", oi.joystick1.getPOV());
-        
+        SmartDashboard.putNumber("NavX", Math.abs(RobotMap.NAVX.getAngle() % 360));
+        SmartDashboard.putNumber("NavXRawAngle", RobotMap.NAVX.getAngle());
+        SmartDashboard.putNumber("NavXAngle", RobotMap.NAVX.getAngle() % 360);
+        SmartDashboard.putNumber("NavXYaw", RobotMap.NAVX.getYaw());
     }
 
     /**
@@ -168,6 +171,10 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Ki", RobotMap.liftI);
         SmartDashboard.putNumber("Kd", RobotMap.liftD);
         */
+
+        SmartDashboard.putNumber("gyroP", RobotMap.gyroP);
+		SmartDashboard.putNumber("gyroI", RobotMap.gyroI);
+		SmartDashboard.putNumber("gyroD", RobotMap.gyroD);
     }
 
     /**
@@ -184,6 +191,7 @@ public class Robot extends TimedRobot {
         */
         //driveWPID.Main_Drive();
         robotDrive.Main_Drive();
+
         vision.run();
         if (oi.joystick2.getRawAxis(3)>0.2){
             tilTake.Tilt_Up();
@@ -195,6 +203,11 @@ public class Robot extends TimedRobot {
             }
 
         }
+
+        RobotMap.gyroP = SmartDashboard.getNumber("gyroP", RobotMap.gyroP);
+		RobotMap.gyroI = SmartDashboard.getNumber("gyroI", RobotMap.gyroI);
+		RobotMap.gyroD = SmartDashboard.getNumber("gyroD", RobotMap.gyroD);
+		robotDrive.setPIDValues();
     
     }
 }

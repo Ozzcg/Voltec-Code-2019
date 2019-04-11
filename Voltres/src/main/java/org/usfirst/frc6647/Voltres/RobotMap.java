@@ -196,6 +196,10 @@ public class RobotMap{
     public static double intakeP = 2.95;
     public static double intakeI = 0.3;
     public static double intakeD = 0.22;
+
+    public static double gyroP = 0.0025; // Hay que ajustar.
+	public static double gyroI = 0.00007;
+	public static double gyroD = 0.000001;
     //////////////////////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////ELEVATOR VALUES////////////////////////////////////////
