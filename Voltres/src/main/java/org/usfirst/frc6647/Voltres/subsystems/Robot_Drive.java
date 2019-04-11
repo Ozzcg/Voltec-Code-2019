@@ -12,7 +12,6 @@ package org.usfirst.frc6647.Voltres.subsystems;
 
 import org.usfirst.frc6647.Voltres.Robot;
 import org.usfirst.frc6647.Voltres.RobotMap;
-import org.usfirst.frc6647.Voltres.OI;
 
 /*
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -20,13 +19,10 @@ import edu.wpi.first.wpilibj.PIDSource;
 */
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-import edu.wpi.first.wpilibj.drive.*;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot_Drive extends PIDSubsystem {
@@ -42,12 +38,10 @@ public class Robot_Drive extends PIDSubsystem {
     private static Solenoid backCylinderRev;
     private static Solenoid backCylinderFwd;
 
-    private static WPI_TalonSRX cylWheel;
+	private static WPI_TalonSRX cylWheel;
     /*
      * private static WPI_VictorSPX cylWheel;
      */
-
-    public boolean toLeft = true;
 
     // private static DifferentialDrive diffDrive;
 
@@ -74,9 +68,9 @@ public class Robot_Drive extends PIDSubsystem {
         // diffDrive.setExpiration(0.02);
         // diffDrive.setSafetyEnabled(false);
 
-        setInputRange(0.0f, 359.9f);
-		setOutputRange(-0.3, 0.3);
-		setAbsoluteTolerance(5f);
+        setInputRange(-180, 180);
+		setOutputRange(-0.50, 0.50);
+		setAbsoluteTolerance(1);
 		getPIDController().setContinuous(true);
 
     }
@@ -241,21 +235,19 @@ public class Robot_Drive extends PIDSubsystem {
 
     @Override
     protected double returnPIDInput() {
-        SmartDashboard.putNumber("PIDInput", Math.abs(RobotMap.NAVX.getAngle() % 360));
-        return Math.abs(RobotMap.NAVX.getAngle() % 360);
+        SmartDashboard.putNumber("PIDInput", RobotMap.NAVX.getYaw());
+        return Math.abs(RobotMap.NAVX.getYaw());
     }
 
     @Override
     protected void usePIDOutput(double output) {
-        if (toLeft) {
-            SmartDashboard.putNumber("outputLeft", output);
-            lefTalon.set(ControlMode.PercentOutput, -output);
-            righTalon.set(ControlMode.PercentOutput, output);
-        } else {
-            SmartDashboard.putNumber("outputRight", output);
-            lefTalon.set(ControlMode.PercentOutput, output);
-            righTalon.set(ControlMode.PercentOutput, -output);
-        }
+		if(RobotMap.NAVX.getYaw() > 0)
+			output *= -1;
+		
+		SmartDashboard.putNumber("VALUE_OUT", output);
+		lefTalon.set(ControlMode.PercentOutput, output);
+		righTalon.set(ControlMode.PercentOutput, -output);
+		
     }
 
     public void setPIDValues() {

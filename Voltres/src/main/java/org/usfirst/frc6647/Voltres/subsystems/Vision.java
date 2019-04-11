@@ -7,8 +7,6 @@
 
 package org.usfirst.frc6647.Voltres.subsystems;
 
-import org.usfirst.frc6647.Voltres.RobotMap;
-
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -25,7 +23,7 @@ public class Vision extends Subsystem {
     private NetworkTableEntry tapeDetected, tapeYaw;
     NetworkTableInstance instance;
     NetworkTable chickenVision;
-    private double targetAngle;
+    private double targetYaw;
     private static double offset = -4;
 
     public Vision() {
@@ -34,17 +32,17 @@ public class Vision extends Subsystem {
         tapeDetected = chickenVision.getEntry("tapeDetected");
         tapeYaw = chickenVision.getEntry("tapeYaw");
 
-        targetAngle = 0;
+        targetYaw = 0;
         run();
 
     }
 
     public void run() {
         tapeSeen = tapeDetected.getBoolean(false);
-        SmartDashboard.putNumber("targetAngle", targetAngle);
+        SmartDashboard.putNumber("targetYaw", targetYaw);
         SmartDashboard.putBoolean("tapeSeen", tapeSeen);
         if (tapeSeen)
-            targetAngle = tapeYaw.getDouble(0);
+            targetYaw = tapeYaw.getDouble(0);
 
     }
 
@@ -54,19 +52,14 @@ public class Vision extends Subsystem {
         // setDefaultCommand(new MySpecialCommand());
     }
 
-    @Override
-    public void periodic() {
-
-    }
-
     public double limitOutput() {
-        if (Math.abs(targetAngle - offset) > 3 && tapeSeen) {
-            if (targetAngle > offset) {
+        if (Math.abs(targetYaw - offset) > 3 && tapeSeen) {
+            if (targetYaw > offset) {
                 SmartDashboard.putString("Side", "left");
-                return -0.5 * targetAngle * .07;
+                return -0.5 * targetYaw * .07;
             } else {
                 SmartDashboard.putString("Side", "Right");
-                return -0.5 * targetAngle * .07;
+                return -0.5 * targetYaw * .07;
             }
         } else
             return 0;

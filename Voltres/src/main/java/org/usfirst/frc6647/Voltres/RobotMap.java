@@ -197,9 +197,9 @@ public class RobotMap{
     public static double intakeI = 0.3;
     public static double intakeD = 0.22;
 
-    public static double gyroP = 0.0025; // Hay que ajustar.
-	public static double gyroI = 0.00007;
-	public static double gyroD = 0.000001;
+    public static double gyroP = 0.009; // Hay que ajustar.
+	public static double gyroI = 0.000009;
+	public static double gyroD = 0.099;
     //////////////////////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////ELEVATOR VALUES////////////////////////////////////////
@@ -226,6 +226,7 @@ public class RobotMap{
         Compressor = new Compressor(0);
 
         NAVX = new AHRS(SPI.Port.kMXP);//NAVX
+        NAVX.reset();
             
         frontLeft = new WPI_TalonSRX(TALON_FRONT_LEFT_CHASSIS_PORT);
         frontRight = new WPI_TalonSRX(TALON_FRONT_RIGHT_CHASSIS_PORT);

@@ -7,11 +7,8 @@
 
 package org.usfirst.frc6647.Voltres.commands;
 
-import com.kauailabs.navx.frc.AHRS;
-
 import org.usfirst.frc6647.Voltres.Robot;
 import org.usfirst.frc6647.Voltres.RobotMap;
-import org.usfirst.frc6647.Voltres.subsystems.Robot_Drive;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,11 +17,9 @@ public class GyroAlign extends Command {
 
 	private double angle;
 
-	public GyroAlign(double angle) {
+	public GyroAlign() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		this.angle = angle;
-
 		requires(Robot.robotDrive);
 	}
 
@@ -32,9 +27,30 @@ public class GyroAlign extends Command {
 	@Override
 	protected void initialize() {
 		SmartDashboard.putBoolean("Gyro", true);
-		checkAngle();
-		Robot.robotDrive.setSetpoint(angle);
+		//Robot.robotDrive.setSetpoint(angle);
+		angle = Math.abs(RobotMap.NAVX.getYaw());
+		if(Math.abs(angle) < 30.615) {
+			Robot.robotDrive.setSetpoint(0);
+		} else if(30.615 <= angle && angle < 75.615) {
+			Robot.robotDrive.setSetpoint(61.23);
+		} else if(75.615 <= angle && angle < 104.385) {
+			Robot.robotDrive.setSetpoint(90);
+		} else if(104.385 <= angle && angle < 149.385) {
+			Robot.robotDrive.setSetpoint(118.77);
+		} else if(Math.abs(angle) >= 149.385) {
+			Robot.robotDrive.setSetpoint(180);
+		}/* else if(-30.615 >= angle && angle > -75.615) {
+			Robot.robotDrive.setSetpoint(-61.23);
+		} else if(-75.615 >= angle && angle > -104.385) {
+			Robot.robotDrive.setSetpoint(-90);
+		} else if(-104.385 >= angle && angle > -149.385) {
+			Robot.robotDrive.setSetpoint(-118.77);
+		}*/
+
+		SmartDashboard.putNumber("targetGyro", Robot.robotDrive.getPIDController().getSetpoint());
+		
 		Robot.robotDrive.enable();
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -46,7 +62,7 @@ public class GyroAlign extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return Math.abs(angle - RobotMap.NAVX.getAngle() % 360) <= 5.00;
+		return Robot.robotDrive.getPIDController().onTarget();
 	}
 
 	// Called once after isFinished returns true
@@ -61,17 +77,5 @@ public class GyroAlign extends Command {
 	@Override
 	protected void interrupted() {
 		end();
-	}
-
-	public void checkAngle() {
-		if(RobotMap.NAVX.getAngle() % 360 < 0) {
-			if(Robot.robotDrive.toLeft) {
-				Robot.robotDrive.toLeft = false;
-			} else {
-				Robot.robotDrive.toLeft = true;
-			}
-		} else {
-			Robot.robotDrive.toLeft = true;
-		}
 	}
 }

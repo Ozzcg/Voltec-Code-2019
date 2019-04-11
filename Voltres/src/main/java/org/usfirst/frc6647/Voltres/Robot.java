@@ -11,14 +11,11 @@
 
 package org.usfirst.frc6647.Voltres;
 
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc6647.Voltres.commands.*;
@@ -109,9 +106,6 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         SmartDashboard.putNumber("Degrees", oi.joystick1.getPOV());
-        SmartDashboard.putNumber("NavX", Math.abs(RobotMap.NAVX.getAngle() % 360));
-        SmartDashboard.putNumber("NavXRawAngle", RobotMap.NAVX.getAngle());
-        SmartDashboard.putNumber("NavXAngle", RobotMap.NAVX.getAngle() % 360);
         SmartDashboard.putNumber("NavXYaw", RobotMap.NAVX.getYaw());
     }
 
@@ -174,7 +168,7 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putNumber("gyroP", RobotMap.gyroP);
 		SmartDashboard.putNumber("gyroI", RobotMap.gyroI);
-		SmartDashboard.putNumber("gyroD", RobotMap.gyroD);
+        SmartDashboard.putNumber("gyroD", RobotMap.gyroD);
     }
 
     /**

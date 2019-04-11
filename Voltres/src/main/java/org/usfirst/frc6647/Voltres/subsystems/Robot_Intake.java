@@ -13,11 +13,8 @@ package org.usfirst.frc6647.Voltres.subsystems;
 
 import org.usfirst.frc6647.Voltres.RobotMap;
 
-import org.usfirst.frc6647.Voltres.commands.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -33,7 +30,6 @@ public class Robot_Intake extends Subsystem {
     private static WPI_VictorSPX intakeLeft;
     private static WPI_VictorSPX intakeRight;
     private static Solenoid H;
-    private static double statepiston=1;
 
     public Robot_Intake() {
         intakeLeft = RobotMap.intakeLeft;
