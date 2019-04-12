@@ -8,48 +8,43 @@
 package org.usfirst.frc6647.Voltres.commands;
 
 import org.usfirst.frc6647.Voltres.Robot;
-import org.usfirst.frc6647.Voltres.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class GyroAlign extends Command {
+/**
+ * Command to move hWheel left or right.
+ */
+public class Slide extends Command {
 
-	private double angle;
+	private boolean toLeft;
+	private double analogLT, analogRT;
 
-	public GyroAlign() {
+	/**
+	 * Constructor for the command, receives whether the Robot
+	 * will slide left or right.
+	 * @param toLeft
+	 */
+	public Slide(boolean toLeft) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.robotDrive);
+		this.toLeft = toLeft;
+		requires(Robot.hWheel);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		SmartDashboard.putBoolean("Gyro", true);
-		angle = Math.abs(RobotMap.NAVX.getYaw());
-
-		if(Math.abs(angle) < 30.615)
-			Robot.robotDrive.setSetpoint(0);
-		else if(30.615 <= angle && angle < 75.615)
-			Robot.robotDrive.setSetpoint(61.23);
-		else if(75.615 <= angle && angle < 104.385)
-			Robot.robotDrive.setSetpoint(90);
-		else if(104.385 <= angle && angle < 149.385)
-			Robot.robotDrive.setSetpoint(118.77);
-		else if(Math.abs(angle) >= 149.385)
-			Robot.robotDrive.setSetpoint(180);
-
-		SmartDashboard.putNumber("targetGyro", Robot.robotDrive.getPIDController().getSetpoint());
-		
-		Robot.robotDrive.enable();
-
+		analogLT = (Robot.oi.joystick1.getRawAxis(3) + 1) / 2;
+		analogRT = (Robot.oi.joystick1.getRawAxis(4) + 1) / 2;
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.robotDrive.setPIDValues();
+		if(toLeft)
+			Robot.hWheel.moveHWheel(analogRT * 0.7);
+		else
+			Robot.hWheel.moveHWheel(-analogLT * 0.7);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -61,8 +56,7 @@ public class GyroAlign extends Command {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		SmartDashboard.putBoolean("Gyro", false);
-		Robot.robotDrive.disable();
+		Robot.hWheel.stopHWheel();
 	}
 
 	// Called when another command which requires one or more of the same

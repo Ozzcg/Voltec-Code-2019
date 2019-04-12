@@ -21,7 +21,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -32,16 +31,12 @@ public class Robot_Drive extends PIDSubsystem {
     private static int direction = 1; // para invertir los ejes si necesario
     private static WPI_TalonSRX lefTalon;
     private static WPI_TalonSRX righTalon;
-    private static WPI_TalonSRX hWheel;
     private static Solenoid frontCylinderRev;
     private static Solenoid frontCylinderFwd;
     private static Solenoid backCylinderRev;
     private static Solenoid backCylinderFwd;
 
 	private static WPI_TalonSRX cylWheel;
-    /*
-     * private static WPI_VictorSPX cylWheel;
-     */
 
     // private static DifferentialDrive diffDrive;
 
@@ -62,8 +57,6 @@ public class Robot_Drive extends PIDSubsystem {
         backCylinderFwd = RobotMap.backCylinderFoward;
         backCylinderRev = RobotMap.backCylinderReverse;
 
-        hWheel = RobotMap.hWheel;
-
         // diffDrive.setRightSideInverted(false);
         // diffDrive.setExpiration(0.02);
         // diffDrive.setSafetyEnabled(false);
@@ -83,7 +76,6 @@ public class Robot_Drive extends PIDSubsystem {
     public void Main_Drive() {
 
         int angle = Robot.oi.joystick1.getPOV();
-        Joystick joystick = Robot.oi.joystick1;
 
         // For Differential Drive
 
@@ -102,21 +94,8 @@ public class Robot_Drive extends PIDSubsystem {
 
         // For Tank Drive/////////////
 
-        double LeftStickY = mapDoubleT(joystick.getRawAxis(1), TOLERANCE, 1, 0, 1) * direction,
-                RightStickY = mapDoubleT(joystick.getRawAxis(5), TOLERANCE, 1, 0, 1) * direction,
-                analogLT = (joystick.getRawAxis(3) + 1) / 2, analogRT = (joystick.getRawAxis(4) + 1) / 2;
-
-        if (Robot.oi.Button7.get()) {
-            hWheel.set(ControlMode.PercentOutput, -analogLT * 0.7);
-        } else if (Robot.oi.Button4.get()) {
-            hWheel.set(ControlMode.PercentOutput, Robot.vision.limitOutput());
-        } else {
-            if (Robot.oi.Button8.get()) {
-                hWheel.set(ControlMode.PercentOutput, analogRT * 0.7);
-            } else {
-                hWheel.set(ControlMode.PercentOutput, 0);
-            }
-        }
+        double LeftStickY = mapDoubleT(Robot.oi.joystick1.getRawAxis(1), TOLERANCE, 1, 0, 1) * direction,
+                RightStickY = mapDoubleT(Robot.oi.joystick1.getRawAxis(5), TOLERANCE, 1, 0, 1) * direction;
 
         if (angle == -1 && SmartDashboard.getBoolean("Gyro", false) == false) {
             lefTalon.set(ControlMode.PercentOutput, LeftStickY * LIMITER * 0.95);
@@ -244,7 +223,7 @@ public class Robot_Drive extends PIDSubsystem {
 		if(RobotMap.NAVX.getYaw() > 0)
 			output *= -1;
 		
-		SmartDashboard.putNumber("VALUE_OUT", output);
+		SmartDashboard.putNumber("PIDOutput", output);
 		lefTalon.set(ControlMode.PercentOutput, output);
 		righTalon.set(ControlMode.PercentOutput, -output);
 		

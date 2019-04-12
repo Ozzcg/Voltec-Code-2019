@@ -56,10 +56,10 @@ public class Vision extends Subsystem {
         if (Math.abs(targetYaw - offset) > 3 && tapeSeen) {
             if (targetYaw > offset) {
                 SmartDashboard.putString("Side", "left");
-                return -0.5 * targetYaw * .07;
+                return -0.5 * (targetYaw - offset) * .07;
             } else {
                 SmartDashboard.putString("Side", "Right");
-                return -0.5 * targetYaw * .07;
+                return -0.5 * (targetYaw - offset) * .07;
             }
         } else
             return 0;
