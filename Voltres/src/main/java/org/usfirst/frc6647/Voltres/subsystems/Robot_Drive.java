@@ -62,7 +62,7 @@ public class Robot_Drive extends PIDSubsystem {
         // diffDrive.setSafetyEnabled(false);
 
         setInputRange(-180, 180);
-		setOutputRange(-0.50, 0.50);
+		setOutputRange(-0.70, 0.70);
 		setAbsoluteTolerance(1);
 		getPIDController().setContinuous(true);
 
@@ -98,15 +98,15 @@ public class Robot_Drive extends PIDSubsystem {
                 RightStickY = mapDoubleT(Robot.oi.joystick1.getRawAxis(5), TOLERANCE, 1, 0, 1) * direction;
 
         if (angle == -1 && SmartDashboard.getBoolean("Gyro", false) == false) {
-            lefTalon.set(ControlMode.PercentOutput, LeftStickY * LIMITER * 0.95);
+            lefTalon.set(ControlMode.PercentOutput, LeftStickY * LIMITER);
             righTalon.set(ControlMode.PercentOutput, RightStickY * LIMITER);
         } else {
             if (angle == 0) {
-                lefTalon.set(ControlMode.PercentOutput, -0.8 * LIMITER * 0.95);
+                lefTalon.set(ControlMode.PercentOutput, -0.8 * LIMITER);
                 righTalon.set(ControlMode.PercentOutput, -0.8 * LIMITER);
             } else {
                 if (angle == 180) {
-                    lefTalon.set(ControlMode.PercentOutput, 0.8 * LIMITER * 0.95);
+                    lefTalon.set(ControlMode.PercentOutput, 0.8 * LIMITER);
                     righTalon.set(ControlMode.PercentOutput, 0.8 * LIMITER);
                 }
             }
