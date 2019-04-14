@@ -192,7 +192,7 @@ public class Robot_Drive extends PIDSubsystem {
     }
 
     public void change_LimiterUP() {
-        LIMITER = 0.75;
+        LIMITER = 0.8;
     }
 
     public void change_LimiterDOWN() {

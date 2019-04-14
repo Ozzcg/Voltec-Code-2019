@@ -7,43 +7,57 @@
 
 package org.usfirst.frc6647.Voltres.subsystems;
 
+import org.usfirst.frc6647.Voltres.Robot;
+import org.usfirst.frc6647.Voltres.RobotMap;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
  */
-public class Vision extends Subsystem {
+public class Vision extends PIDSubsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	private boolean tapeSeen;
 	private NetworkTableEntry tapeDetected, tapeYaw;
 	NetworkTableInstance instance;
 	NetworkTable chickenVision;
-	private double targetYaw;
-	private double offset = -4;
+	private double currentYaw;
+	private double offset;
 
 	public Vision() {
+		super("Vision", RobotMap.visionP, RobotMap.visionI, RobotMap.visionD);
+
 		instance = NetworkTableInstance.getDefault();
 		chickenVision = instance.getTable("ChickenVision");
 		tapeDetected = chickenVision.getEntry("tapeDetected");
 		tapeYaw = chickenVision.getEntry("tapeYaw");
 
-		targetYaw = 0;
 		run();
-		tapeSeen = true;
 
+		setInputRange(-100, 100);
+		setOutputRange(-1.0, 1.0);
+		setSetpoint(offset);
+		setAbsoluteTolerance(0);
+		getPIDController().setContinuous(true);
 	}
 
 	public void run() {
+		offset = RobotMap.visionOffset;
+		getPIDController().setPID(RobotMap.visionP, RobotMap.visionI, RobotMap.visionD);
+
 		tapeSeen = tapeDetected.getBoolean(false);
 		
 		if (tapeSeen)
-			targetYaw = tapeYaw.getDouble(0);
-		SmartDashboard.putNumber("targetYaw", targetYaw);
+			currentYaw = tapeYaw.getDouble(offset);
+		else
+			currentYaw = offset;
+
+		SmartDashboard.putNumber("currentYaw", currentYaw);
 		SmartDashboard.putBoolean("tapeSeen", tapeSeen);
 	}
 
@@ -53,16 +67,17 @@ public class Vision extends Subsystem {
 		// setDefaultCommand(new MySpecialCommand());
 	}
 
-	public double limitOutput() {
-		if (Math.abs(targetYaw - offset) > 3 && tapeSeen) {
-			if (targetYaw > offset) {
-				SmartDashboard.putString("Side", "left");
-				return 0.5 * (-targetYaw + offset) * .07;
-			} else {
-				SmartDashboard.putString("Side", "Right");
-				return 0.5 * (-targetYaw + offset) * .07;
-			}
-		} else
-			return 0;
+	@Override
+	protected double returnPIDInput() {
+		return currentYaw;
+	}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		Robot.hWheel.moveHWheel(output);
+	}
+
+	public boolean tapeSeen() {
+		return tapeSeen;
 	}
 }

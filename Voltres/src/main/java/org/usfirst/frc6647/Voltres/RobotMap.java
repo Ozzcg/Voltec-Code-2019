@@ -221,6 +221,11 @@ public class RobotMap{
 
     //////////////////////////////////////////////////////////////////////////////////////////
 
+    public static double visionP = 0.07;
+    public static double visionI = 0;
+    public static double visionD = 0;
+    public static double visionOffset = -4;
+
     public static void init(){
     
         /////////////////////////////////////////CHASIS///////////////////////////////////////////
@@ -281,7 +286,7 @@ public class RobotMap{
         frontRight.config_kD(0, chassisRightD);
         frontRight.config_kF(0, chassisRightF);
         ////
-       hWheel.configClosedloopRamp(RAMPDRIVE, 1000);
+        hWheel.configClosedloopRamp(RAMPDRIVE, 1000);
         hWheel.configOpenloopRamp(RAMPDRIVE, 1000);
 
         //Quad Encoder Left

@@ -15,7 +15,7 @@ public class PushHatch extends Command {
   public PushHatch() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    setTimeout(0.4);
+    setTimeout(0.6);
   }
 
   // Called just before this Command runs the first time

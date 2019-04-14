@@ -169,6 +169,11 @@ public class Robot extends TimedRobot {
 		 * SmartDashboard.putNumber("Kd", RobotMap.liftD);
 		 */
 
+		SmartDashboard.putNumber("visionP", RobotMap.visionP);
+		SmartDashboard.putNumber("visionI", RobotMap.visionI);
+		SmartDashboard.putNumber("visionD", RobotMap.visionD);
+		SmartDashboard.putNumber("visionOffset", RobotMap.visionOffset);
+
 		SmartDashboard.putNumber("gyroP", RobotMap.gyroP);
 		SmartDashboard.putNumber("gyroI", RobotMap.gyroI);
 		SmartDashboard.putNumber("gyroD", RobotMap.gyroD);
@@ -189,7 +194,12 @@ public class Robot extends TimedRobot {
 		// driveWPID.Main_Drive();
 		robotDrive.Main_Drive();
 
+		RobotMap.visionP = SmartDashboard.getNumber("visionP", RobotMap.visionP);
+		RobotMap.visionI = SmartDashboard.getNumber("visionI", RobotMap.visionI);
+		RobotMap.visionD = SmartDashboard.getNumber("visionD", RobotMap.visionD);
+		RobotMap.visionOffset = SmartDashboard.getNumber("visionOffset", RobotMap.visionOffset);
 		vision.run();
+
 		if (oi.joystick2.getRawAxis(3) > 0.2) {
 			tilTake.Tilt_Up();
 		} else {
