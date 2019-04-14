@@ -181,8 +181,8 @@ public class OI {
          * Button7.whileHeld(new BallIn()); Button8.whileHeld(new BallOut());
          */
 
-        Button3.whileHeld(new LatchH());
-        sButton8.whileHeld(new Reset_Encoders());
+        //Button3.whileHeld(new LatchH());
+        
 
         Button4.whileHeld(new LimiterMaxSpeed());
         Button1.whileHeld(new LimiterSlowSpeed());
@@ -191,7 +191,8 @@ public class OI {
         Button12.toggleWhenPressed(new VisionAlign());
         Button14.whileHeld(new Align());
 
-        Button2.whileHeld(new LatchH());
+        Button2.toggleWhenPressed(new LatchH());
+        Button3.whenPressed(new PushHatch());
         /*
          * Button6.whileHeld(new LiftUpManual()); Button5.whileHeld(new
          * LiftDownManual()); Button1.whileHeld(new HAB3()); Button14.whileHeld(new
@@ -210,6 +211,7 @@ public class OI {
         sButton4.whileHeld(new BallMid());
         sButton6.whileHeld(new HatchHigh());
         sButton5.whileHeld(new LiftDownManual());
+        sButton8.whileHeld(new Reset_Encoders());
 
         //////// COMPETENCIA TERCER CONTROL/////////
 

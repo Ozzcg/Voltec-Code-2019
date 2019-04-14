@@ -39,24 +39,18 @@ public class LatchH extends Command {
     @Override
     protected void initialize() {
         //Robot.intake.Control_H();
-        setTimeout(.5);
+        //setTimeout(.5);
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
         Robot.intake.Control_H(true);
-
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        
-        if(isTimedOut()){
-            Robot.intake.Control_H(false);
-        return true;
-        }
         return false;
     }
 

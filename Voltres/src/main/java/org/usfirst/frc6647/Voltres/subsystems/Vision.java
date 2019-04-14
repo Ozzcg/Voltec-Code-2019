@@ -24,7 +24,7 @@ public class Vision extends Subsystem {
 	NetworkTableInstance instance;
 	NetworkTable chickenVision;
 	private double targetYaw;
-	private double offset = -2;
+	private double offset = -4;
 
 	public Vision() {
 		instance = NetworkTableInstance.getDefault();
@@ -34,15 +34,17 @@ public class Vision extends Subsystem {
 
 		targetYaw = 0;
 		run();
+		tapeSeen = true;
 
 	}
 
 	public void run() {
 		tapeSeen = tapeDetected.getBoolean(false);
-		SmartDashboard.putNumber("targetYaw", targetYaw);
-		SmartDashboard.putBoolean("tapeSeen", tapeSeen);
+		
 		if (tapeSeen)
 			targetYaw = tapeYaw.getDouble(0);
+		SmartDashboard.putNumber("targetYaw", targetYaw);
+		SmartDashboard.putBoolean("tapeSeen", tapeSeen);
 	}
 
 	@Override
@@ -55,10 +57,10 @@ public class Vision extends Subsystem {
 		if (Math.abs(targetYaw - offset) > 3 && tapeSeen) {
 			if (targetYaw > offset) {
 				SmartDashboard.putString("Side", "left");
-				return -0.5 * (targetYaw - offset) * .07;
+				return 0.5 * (-targetYaw + offset) * .07;
 			} else {
 				SmartDashboard.putString("Side", "Right");
-				return -0.5 * (targetYaw - offset) * .07;
+				return 0.5 * (-targetYaw + offset) * .07;
 			}
 		} else
 			return 0;

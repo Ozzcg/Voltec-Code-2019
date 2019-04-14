@@ -91,7 +91,8 @@ public class RobotMap{
     ////////////////////////////////////SEÑALES DE LA PCM////////////////////////////////////
 
     private static final int SOL_FORWARD_H_PORT = 3;                   //H LEFT PISTON FORWARD
-	//private static final int SOL_REVERSE_H_PORT = 1;                   //H LEFT PISTON REVERSE
+    private static final int SOL_REVERSE_H_PORT = 2;
+    private static final int SOL_PUSH_HATCH = 1;                   //H LEFT PISTON REVERSE
 
 
 	private static final int SOL_FORWARD_FRONTCYLINDER_PORT = 4;              //FRONT PISTON FORWARD
@@ -136,6 +137,8 @@ public class RobotMap{
     public static WPI_VictorSPX intakeRight;
 
     public static Solenoid cylinderH;
+    public static Solenoid cylinderHR;
+    public static Solenoid pushHatch;
 
     public static DigitalInput ballPresent;
 
@@ -339,8 +342,11 @@ public class RobotMap{
         intakeRight.set(ControlMode.PercentOutput,0);
 
         cylinderH = new Solenoid(SOL_FORWARD_H_PORT);
+        cylinderHR = new Solenoid(SOL_REVERSE_H_PORT);
+        pushHatch = new Solenoid(SOL_PUSH_HATCH);
 
         cylinderH.set(false);
+        cylinderHR.set(true);
         
         //////////////////////////////////////////////////////////////////////////////////////////
         
