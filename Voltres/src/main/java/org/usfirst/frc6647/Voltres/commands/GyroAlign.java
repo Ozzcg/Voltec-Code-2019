@@ -49,8 +49,7 @@ public class GyroAlign extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		if (Robot.oi.joystick1.getRawAxis(1) > 0.1 && Robot.oi.joystick1.getRawAxis(5) > 0.1
-				|| Robot.oi.joystick1.getRawAxis(1) < -0.1 && Robot.oi.joystick1.getRawAxis(5) < -0.1)
+		if (Math.abs(Robot.oi.joystick1.getRawAxis(1)) > 0.1 && Math.abs(Robot.oi.joystick1.getRawAxis(5)) > 0.1)
 			end();
 
 		Robot.robotDrive.setPIDValues();
