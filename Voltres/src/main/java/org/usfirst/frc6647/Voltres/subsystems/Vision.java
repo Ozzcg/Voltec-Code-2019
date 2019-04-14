@@ -17,51 +17,50 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Add your docs here.
  */
 public class Vision extends Subsystem {
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-    private boolean tapeSeen;
-    private NetworkTableEntry tapeDetected, tapeYaw;
-    NetworkTableInstance instance;
-    NetworkTable chickenVision;
-    private double targetYaw;
-    private static double offset = -4;
+	// Put methods for controlling this subsystem
+	// here. Call these from Commands.
+	private boolean tapeSeen;
+	private NetworkTableEntry tapeDetected, tapeYaw;
+	NetworkTableInstance instance;
+	NetworkTable chickenVision;
+	private double targetYaw;
+	private double offset = -2;
 
-    public Vision() {
-        instance = NetworkTableInstance.getDefault();
-        chickenVision = instance.getTable("ChickenVision");
-        tapeDetected = chickenVision.getEntry("tapeDetected");
-        tapeYaw = chickenVision.getEntry("tapeYaw");
+	public Vision() {
+		instance = NetworkTableInstance.getDefault();
+		chickenVision = instance.getTable("ChickenVision");
+		tapeDetected = chickenVision.getEntry("tapeDetected");
+		tapeYaw = chickenVision.getEntry("tapeYaw");
 
-        targetYaw = 0;
-        run();
+		targetYaw = 0;
+		run();
 
-    }
+	}
 
-    public void run() {
-        tapeSeen = tapeDetected.getBoolean(false);
-        SmartDashboard.putNumber("targetYaw", targetYaw);
-        SmartDashboard.putBoolean("tapeSeen", tapeSeen);
-        if (tapeSeen)
-            targetYaw = tapeYaw.getDouble(0);
+	public void run() {
+		tapeSeen = tapeDetected.getBoolean(false);
+		SmartDashboard.putNumber("targetYaw", targetYaw);
+		SmartDashboard.putBoolean("tapeSeen", tapeSeen);
+		if (tapeSeen)
+			targetYaw = tapeYaw.getDouble(0);
+	}
 
-    }
+	@Override
+	public void initDefaultCommand() {
+		// Set the default command for a subsystem here.
+		// setDefaultCommand(new MySpecialCommand());
+	}
 
-    @Override
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        // setDefaultCommand(new MySpecialCommand());
-    }
-
-    public double limitOutput() {
-        if (Math.abs(targetYaw - offset) > 3 && tapeSeen) {
-            if (targetYaw > offset) {
-                SmartDashboard.putString("Side", "left");
-                return -0.5 * (targetYaw) * .07;
-            } else {
-                SmartDashboard.putString("Side", "Right");
-                return -0.5 * (targetYaw) * .07;
-            }
-        } else
-            return 0;
-    }
+	public double limitOutput() {
+		if (Math.abs(targetYaw - offset) > 3 && tapeSeen) {
+			if (targetYaw > offset) {
+				SmartDashboard.putString("Side", "left");
+				return -0.5 * (targetYaw - offset) * .07;
+			} else {
+				SmartDashboard.putString("Side", "Right");
+				return -0.5 * (targetYaw - offset) * .07;
+			}
+		} else
+			return 0;
+	}
 }

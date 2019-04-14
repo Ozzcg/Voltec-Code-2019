@@ -43,9 +43,9 @@ public class Slide extends Command {
 		analogRT = (Robot.oi.joystick1.getRawAxis(4) + 1) / 2;
 
 		if(toLeft)
-			Robot.hWheel.moveHWheel(analogRT * 0.7);
+			Robot.hWheel.moveHWheel(analogLT * 0.7);
 		else
-			Robot.hWheel.moveHWheel(-analogLT * 0.7);
+			Robot.hWheel.moveHWheel(-analogRT * 0.7);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

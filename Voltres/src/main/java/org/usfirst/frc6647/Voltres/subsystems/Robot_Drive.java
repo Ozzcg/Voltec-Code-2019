@@ -36,7 +36,7 @@ public class Robot_Drive extends PIDSubsystem {
     private static Solenoid backCylinderRev;
     private static Solenoid backCylinderFwd;
 
-	private static WPI_TalonSRX cylWheel;
+    private static WPI_TalonSRX cylWheel;
 
     // private static DifferentialDrive diffDrive;
 
@@ -62,9 +62,9 @@ public class Robot_Drive extends PIDSubsystem {
         // diffDrive.setSafetyEnabled(false);
 
         setInputRange(-180, 180);
-		setOutputRange(-0.70, 0.70);
-		setAbsoluteTolerance(1);
-		getPIDController().setContinuous(true);
+        setOutputRange(-0.70, 0.70);
+        setAbsoluteTolerance(1);
+        getPIDController().setContinuous(true);
 
     }
 
@@ -74,9 +74,6 @@ public class Robot_Drive extends PIDSubsystem {
     }
 
     public void Main_Drive() {
-
-        int angle = Robot.oi.joystick1.getPOV();
-
         // For Differential Drive
 
         /*
@@ -97,19 +94,9 @@ public class Robot_Drive extends PIDSubsystem {
         double LeftStickY = mapDoubleT(Robot.oi.joystick1.getRawAxis(1), TOLERANCE, 1, 0, 1) * direction,
                 RightStickY = mapDoubleT(Robot.oi.joystick1.getRawAxis(5), TOLERANCE, 1, 0, 1) * direction;
 
-        if (angle == -1 && SmartDashboard.getBoolean("Gyro", false) == false) {
+        if (Robot.oi.joystick1.getPOV() == -1 && SmartDashboard.getBoolean("Gyro", false) == false) {
             lefTalon.set(ControlMode.PercentOutput, LeftStickY * LIMITER);
             righTalon.set(ControlMode.PercentOutput, RightStickY * LIMITER);
-        } else {
-            if (angle == 0) {
-                lefTalon.set(ControlMode.PercentOutput, -0.8 * LIMITER);
-                righTalon.set(ControlMode.PercentOutput, -0.8 * LIMITER);
-            } else {
-                if (angle == 180) {
-                    lefTalon.set(ControlMode.PercentOutput, 0.8 * LIMITER);
-                    righTalon.set(ControlMode.PercentOutput, 0.8 * LIMITER);
-                }
-            }
         }
 
         /////////////////////////////////////
@@ -220,13 +207,23 @@ public class Robot_Drive extends PIDSubsystem {
 
     @Override
     protected void usePIDOutput(double output) {
-		if(RobotMap.NAVX.getYaw() > 0)
-			output *= -1;
-		
-		SmartDashboard.putNumber("PIDOutput", output);
-		lefTalon.set(ControlMode.PercentOutput, output);
-		righTalon.set(ControlMode.PercentOutput, -output);
-		
+        if (RobotMap.NAVX.getYaw() > 0)
+            output *= -1;
+
+        SmartDashboard.putNumber("PIDOutput", output);
+
+        int angle = Robot.oi.joystick1.getPOV();
+        if (angle == 0) {
+            lefTalon.set(ControlMode.PercentOutput, -0.5 * LIMITER + output);
+            righTalon.set(ControlMode.PercentOutput, -0.5 * LIMITER - output);
+        } else if (angle == 180) {
+            lefTalon.set(ControlMode.PercentOutput, 0.5 * LIMITER + output);
+            righTalon.set(ControlMode.PercentOutput, 0.5 * LIMITER - output);
+        } else {
+            lefTalon.set(ControlMode.PercentOutput, output);
+            righTalon.set(ControlMode.PercentOutput, -output);
+        }
+
     }
 
     public void setPIDValues() {

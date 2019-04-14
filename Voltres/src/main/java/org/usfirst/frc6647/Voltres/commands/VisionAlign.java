@@ -10,6 +10,7 @@ package org.usfirst.frc6647.Voltres.commands;
 import org.usfirst.frc6647.Voltres.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class VisionAlign extends Command {
     public VisionAlign() {
@@ -19,6 +20,7 @@ public class VisionAlign extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        SmartDashboard.putBoolean("VisionAlign", true);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -37,6 +39,7 @@ public class VisionAlign extends Command {
     @Override
     protected void end() {
         Robot.hWheel.stopHWheel();
+        SmartDashboard.putBoolean("VisionAlign", false);
     }
 
     // Called when another command which requires one or more of the same

@@ -187,8 +187,9 @@ public class OI {
         Button4.whileHeld(new LimiterMaxSpeed());
         Button1.whileHeld(new LimiterSlowSpeed());
 
-        Button9.toggleWhenPressed(new GyroAlign());
-        Button10.toggleWhenPressed(new VisionAlign());
+        Button11.toggleWhenPressed(new GyroAlign());
+        Button12.toggleWhenPressed(new VisionAlign());
+        Button14.whileHeld(new Align());
 
         Button2.whileHeld(new LatchH());
         /*
