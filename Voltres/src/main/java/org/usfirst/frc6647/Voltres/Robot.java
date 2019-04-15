@@ -73,7 +73,7 @@ public class Robot extends TimedRobot {
 		robotDrive = new Robot_Drive();
 		control = new Robot_Control();
 		liftWithPID = new LiftWithPID();
-		vision = new Vision();
+		/* vision = new Vision(); */
 
 		/*
 		 * UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
@@ -168,11 +168,12 @@ public class Robot extends TimedRobot {
 		 * SmartDashboard.putNumber("Ki", RobotMap.liftI);
 		 * SmartDashboard.putNumber("Kd", RobotMap.liftD);
 		 */
+		RobotMap.NAVX.zeroYaw();
 
-		SmartDashboard.putNumber("visionP", RobotMap.visionP);
+		/* SmartDashboard.putNumber("visionP", RobotMap.visionP);
 		SmartDashboard.putNumber("visionI", RobotMap.visionI);
 		SmartDashboard.putNumber("visionD", RobotMap.visionD);
-		SmartDashboard.putNumber("visionOffset", RobotMap.visionOffset);
+		SmartDashboard.putNumber("visionOffset", RobotMap.visionOffset); */
 
 		SmartDashboard.putNumber("gyroP", RobotMap.gyroP);
 		SmartDashboard.putNumber("gyroI", RobotMap.gyroI);
@@ -194,11 +195,11 @@ public class Robot extends TimedRobot {
 		// driveWPID.Main_Drive();
 		robotDrive.Main_Drive();
 
-		RobotMap.visionP = SmartDashboard.getNumber("visionP", RobotMap.visionP);
+		/* RobotMap.visionP = SmartDashboard.getNumber("visionP", RobotMap.visionP);
 		RobotMap.visionI = SmartDashboard.getNumber("visionI", RobotMap.visionI);
 		RobotMap.visionD = SmartDashboard.getNumber("visionD", RobotMap.visionD);
 		RobotMap.visionOffset = SmartDashboard.getNumber("visionOffset", RobotMap.visionOffset);
-		vision.run();
+		vision.run(); */
 
 		if (oi.joystick2.getRawAxis(3) > 0.2) {
 			tilTake.Tilt_Up();

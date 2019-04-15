@@ -30,7 +30,6 @@ public class Robot_Intake extends Subsystem {
     private static WPI_VictorSPX intakeLeft;
     private static WPI_VictorSPX intakeRight;
     private static Solenoid H;
-    private int statepiston = 1;
 
     public Robot_Intake() {
         intakeLeft = RobotMap.intakeLeft;
@@ -41,7 +40,6 @@ public class Robot_Intake extends Subsystem {
     @Override
     public void initDefaultCommand() {
         Stop_Intake();
-
     }
 
     public void Ball_In(){

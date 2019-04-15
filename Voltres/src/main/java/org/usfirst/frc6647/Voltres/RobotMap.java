@@ -113,16 +113,7 @@ public class RobotMap{
 
     public static Ultrasonic ultrasense;
 
-    public static Solenoid frontCylinderFoward;
-    public static Solenoid frontCylinderReverse;
-    public static Solenoid backCylinderFoward;
-    public static Solenoid backCylinderReverse;
-
     ////////////////////
-    public static WPI_TalonSRX cylinderWheels;
-    /*
-    public static WPI_VictorSPX cylinderWheels;
-    */
 
 	public static PowerDistributionPanel pdp;
     public static Compressor Compressor;
@@ -160,10 +151,6 @@ public class RobotMap{
 
     public static WPI_VictorSPX liftMain;
     public static WPI_VictorSPX liftFollower;
-    /*
-    public static WPI_VictorSPX liftMain;
-    public static WPI_VictorSPX liftFollower;
-    */
 
     public static Encoder liftEncoder;
 
@@ -206,13 +193,13 @@ public class RobotMap{
     //////////////////////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////ELEVATOR VALUES////////////////////////////////////////
-    public static final int hatchLv1 = 27000;   //bien
-    public static final int hatchLv2 = 201000;  //bien - Funciona para cargo balls
-    public static final int hatchLv3 = 380000;  //valor sacado en base a diferencia entre hatches
+    public static final int hatchLv1 = 27000;
+    public static final int hatchLv2 = 201000;
+    public static final int hatchLv3 = 380000;
     public static final int floorlevel = 400000;
 
-    public static final int ballfloor = 145000;    //bien check -17500
-    public static final int ballLevel2 = 235000;    //bien
+    public static final int ballfloor = 145000;
+    public static final int ballLevel2 = 235000;
 
     public static final int cargoLv1 = 89000;
     public static final int cargoLv2 = 165000;
@@ -224,7 +211,17 @@ public class RobotMap{
     public static double visionP = 0.07;
     public static double visionI = 0;
     public static double visionD = 0;
-    public static double visionOffset = -4;
+    public static double visionOffset = 3;
+
+    public static final int CLIMB_FRONT_TALON_PORT = 0;
+    public static final int CLIMB_BACK_LEFT_TALON_PORT = 0;
+    public static final int CLIMB_BACK_RIGHT_TALON_PORT = 0;
+    public static final int CLIMB_WHEELS_TALON_PORT = 0;
+
+    public static WPI_TalonSRX climbFront;
+    public static WPI_TalonSRX climbBackLeft;
+    public static WPI_TalonSRX climbBackRight;
+    public static WPI_TalonSRX climbWheels;
 
     public static void init(){
     
@@ -246,7 +243,6 @@ public class RobotMap{
         
         //cylinderWheels = new WPI_VictorSPX(VICTOR_CYLINDER_WHEELS_PORT);
         
-            
         frontLeft.setInverted(true);
         backLeft.setInverted(true);
         frontRight.setInverted(false);
@@ -309,16 +305,6 @@ public class RobotMap{
         frontRight.set(ControlMode.PercentOutput,0);
         backLeft.follow(frontLeft);
         backRight.follow(frontRight);
-        
-        frontCylinderFoward = new Solenoid(SOL_FORWARD_FRONTCYLINDER_PORT);
-        frontCylinderReverse = new Solenoid(SOL_REVERSE_FRONTCYLINDER_PORT);
-        backCylinderFoward = new Solenoid(SOL_FORWARD_BACKCYLINDER_PORT);
-        backCylinderReverse = new Solenoid(SOL_REVERSE_BACKCYLINDER_PORT);
-
-        frontCylinderFoward.set(false);
-        frontCylinderReverse.set(false);
-        backCylinderFoward.set(false);
-        backCylinderReverse.set(false);
 
         ultrasense = new Ultrasonic(DO_ULTRASONIC_SEND, DI_ULTRASONIC_REC);
 
@@ -358,7 +344,6 @@ public class RobotMap{
         ////////////////////////////////////////TILTAKE///////////////////////////////////////////
         
         tilTake = new WPI_VictorSPX(VICTOR_TILTAKE_PORT);
-    
 
         lowLimitTilt = new DigitalInput(DI_TILTAKE_LIMIT_DOWN_PORT);
         topLimitTilt = new DigitalInput(DI_TILTAKE_LIMIT_UP_PORT);
@@ -374,21 +359,14 @@ public class RobotMap{
 
         tiltakePot = new AnalogPotentiometer(AI_POT_PORT, 3600, -8);
         camServo = new Servo(PWM_SERVO_PORT);
-
-
         
         //////////////////////////////////////////////////////////////////////////////////////////
             
         //////////////////////////////////////////LIFT////////////////////////////////////////////
         
-        /*
-        liftMain = new WPI_TalonSRX(VICTOR_LIFT_MOTOR_ENCODER_PORT);
-        liftFollower = new WPI_TalonSRX(VICTOR_LIFT_MOTOR_FOLLOWER_PORT);
-        */
         liftMain = new WPI_VictorSPX(VICTOR_LIFT_MOTOR_ENCODER_PORT);
         liftFollower = new WPI_VictorSPX(VICTOR_LIFT_MOTOR_FOLLOWER_PORT);
         
-
         lowLimitLift = new DigitalInput(DI_LIFT_LIMIT_DOWN_PORT);
         topLimitLift = new DigitalInput(DI_LIFT_LIMIT_UP_PORT);
 
@@ -409,5 +387,31 @@ public class RobotMap{
         liftEncoder.reset();
         
         //////////////////////////////////////////////////////////////////////////////////////////
+
+        climbFront = new WPI_TalonSRX(CLIMB_FRONT_TALON_PORT);
+        climbBackLeft = new WPI_TalonSRX(CLIMB_BACK_LEFT_TALON_PORT);
+        climbBackRight = new WPI_TalonSRX(CLIMB_BACK_RIGHT_TALON_PORT);
+        climbWheels = new WPI_TalonSRX(CLIMB_WHEELS_TALON_PORT);
+
+        climbFront.configClosedloopRamp(RAMPDRIVE, 0);
+        climbFront.configOpenloopRamp(RAMPDRIVE, 0);
+        
+        climbBackLeft.configClosedloopRamp(RAMPDRIVE, 0);
+        climbBackLeft.configOpenloopRamp(RAMPDRIVE, 0);
+
+        climbBackRight.configClosedloopRamp(RAMPDRIVE, 0);
+        climbBackRight.configOpenloopRamp(RAMPDRIVE, 0);
+
+        climbWheels.configClosedloopRamp(RAMPDRIVE, 0);
+        climbWheels.configOpenloopRamp(RAMPDRIVE, 0);
+
+        climbFront.setNeutralMode(NeutralMode.Brake);
+        climbBackLeft.setNeutralMode(NeutralMode.Brake);
+        climbBackRight.setNeutralMode(NeutralMode.Brake);
+        climbWheels.setNeutralMode(NeutralMode.Coast);
+
+        climbFront.set(ControlMode.PercentOutput, 0);
+        climbBackLeft.set(ControlMode.PercentOutput, 0);
+        climbBackRight.follow(climbBackLeft);
     }
 }

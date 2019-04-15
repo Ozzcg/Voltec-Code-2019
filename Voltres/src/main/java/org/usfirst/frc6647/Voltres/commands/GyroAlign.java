@@ -29,7 +29,7 @@ public class GyroAlign extends Command {
 		SmartDashboard.putBoolean("Gyro", true);
 		angle = Math.abs(RobotMap.NAVX.getYaw());
 
-		if (Math.abs(angle) < 14.385)
+		if (angle < 14.385)
 			Robot.robotDrive.setSetpoint(0);
 		else if (14.385 <= angle && angle < 59.385)
 			Robot.robotDrive.setSetpoint(28.77);
@@ -37,11 +37,11 @@ public class GyroAlign extends Command {
 			Robot.robotDrive.setSetpoint(90);
 		else if (120.615 <= angle && angle < 165.615)
 			Robot.robotDrive.setSetpoint(151.23);
-		else if (Math.abs(angle) >= 165.615)
+		else if (angle >= 165.615)
 			Robot.robotDrive.setSetpoint(180);
 
 		SmartDashboard.putNumber("targetGyro", Robot.robotDrive.getPIDController().getSetpoint());
-
+		Robot.robotDrive.acceleration = 0.0;
 		Robot.robotDrive.enable();
 
 	}
@@ -52,6 +52,7 @@ public class GyroAlign extends Command {
 		if (Math.abs(Robot.oi.joystick1.getRawAxis(1)) > 0.1 && Math.abs(Robot.oi.joystick1.getRawAxis(5)) > 0.1)
 			end();
 
+		Robot.robotDrive.acceleration += 0.0035;
 		Robot.robotDrive.setPIDValues();
 	}
 

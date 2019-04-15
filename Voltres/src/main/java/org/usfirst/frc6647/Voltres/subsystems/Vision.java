@@ -54,8 +54,6 @@ public class Vision extends PIDSubsystem {
 		
 		if (tapeSeen)
 			currentYaw = tapeYaw.getDouble(offset);
-		else
-			currentYaw = offset;
 
 		SmartDashboard.putNumber("currentYaw", currentYaw);
 		SmartDashboard.putBoolean("tapeSeen", tapeSeen);
@@ -69,7 +67,7 @@ public class Vision extends PIDSubsystem {
 
 	@Override
 	protected double returnPIDInput() {
-		return currentYaw;
+		return tapeYaw.getDouble(offset);
 	}
 
 	@Override
