@@ -9,10 +9,12 @@ package org.usfirst.frc6647.Voltres.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import org.usfirst.frc6647.Voltres.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Subsystem for Robot climbing mechanism.
@@ -23,7 +25,7 @@ public class Robot_Climb extends Subsystem {
 
 	private int up = 1, down = -1;
 	private double speed_slow = 0.4, speed_fast = 0.7;
-	private WPI_TalonSRX frontTalon, backTalons, wheels;
+	private WPI_VictorSPX frontTalon, backTalons, wheels;
 
 	public Robot_Climb() {
 		frontTalon = RobotMap.climbFront;
@@ -31,61 +33,50 @@ public class Robot_Climb extends Subsystem {
 		wheels = RobotMap.climbWheels;
 	}
 
-	/**
-	 * Raise front talon (fast).
-	 */
-	public void frontHoistSchnell() {
-		frontTalon.set(ControlMode.PercentOutput, speed_fast * up);
+
+////////////Aqui empiezan las funciones
+	
+	public void frontHabClimb() {
+		//cambiar
+		frontTalon.set(ControlMode.PercentOutput, SmartDashboard.getNumber("FrontClimbSpeed", -0.8));
 	}
 
-	/**
-	 * Raise front talon (slow).
-	 */
-	public void frontHoistLangsam() {
-		frontTalon.set(ControlMode.PercentOutput, speed_slow * up);
+	public void frontHabLetSlide() {
+		//cambiar
+		frontTalon.set(ControlMode.PercentOutput, SmartDashboard.getNumber("FrontSlideSpeed", -0.6));
 	}
 
-	/**
-	 * Lower front talon (fast).
-	 */
-	public void frontSinkSchnell() {
-		frontTalon.set(ControlMode.PercentOutput, speed_fast * down);
+	public void frontHabReturn() {
+		//cambiar
+		frontTalon.set(ControlMode.PercentOutput, SmartDashboard.getNumber("FrontReturn", 0.6));
 	}
 
-	/**
-	 * Lower front talon (slow).
-	 */
-	public void frontSinkLangsam() {
-		frontTalon.set(ControlMode.PercentOutput, speed_slow * down);
+	public void frontHabHold() {
+		//cambiar
+		frontTalon.set(ControlMode.PercentOutput, SmartDashboard.getNumber("FrontHold", -0.8));
 	}
 
-	/**
-	 * Raise back talons (fast).
-	 */
-	public void backHoistSchnell() {
-		backTalons.set(ControlMode.PercentOutput, speed_fast * up);
+	public void rearHabClimb() {
+		//cambiar
+		frontTalon.set(ControlMode.PercentOutput, SmartDashboard.getNumber("BackClimbSpeed", -0.85));
 	}
 
-	/**
-	 * Raise back talons (slow).
-	 */
-	public void backHoistLangsam() {
-		backTalons.set(ControlMode.PercentOutput, speed_slow * up);
+	public void rearHabLetSlide() {
+		//cambiar
+		frontTalon.set(ControlMode.PercentOutput, SmartDashboard.getNumber("BackSlideSpeed", -0.6));
 	}
 
-	/**
-	 * Lower back talons (fast).
-	 */
-	public void backSinkSchnell() {
-		backTalons.set(ControlMode.PercentOutput, speed_fast * down);
+	public void rearHabReturn() {
+		//cambiar
+		frontTalon.set(ControlMode.PercentOutput, SmartDashboard.getNumber("BackReturn", 0.6));
 	}
 
-	/**
-	 * Lower back talons (slow).
-	 */
-	public void backSinkLangsam() {
-		backTalons.set(ControlMode.PercentOutput, speed_slow * down);
+	public void rearHabHold(){
+		//cambiar
+		frontTalon.set(ControlMode.PercentOutput, SmartDashboard.getNumber("BackHold", -0.75));
 	}
+
+
 
 	/**
 	 * Move wheels in percent output.
@@ -106,7 +97,6 @@ public class Robot_Climb extends Subsystem {
 	 * Cease talon movement.
 	 */
 	public void stopClimb() {
-		frontTalon.set(ControlMode.PercentOutput, 0.0);
 		backTalons.set(ControlMode.PercentOutput, 0.0);
 	}
 

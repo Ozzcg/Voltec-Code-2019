@@ -44,6 +44,7 @@ public class TilTakeDownManual extends Command {
     @Override
     protected void execute() {
         //Robot.tilTake.Tilt_Down(Robot.oi.joystick2.getRawAxis(2));
+        Robot.tilTake.Tilt_Down();
     }
 
     // Make this return true when this Command no longer needs to run execute()

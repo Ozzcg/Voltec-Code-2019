@@ -29,12 +29,13 @@ public class Robot_Intake extends Subsystem {
     private static double speed_out = 0.7;
     private static WPI_VictorSPX intakeLeft;
     private static WPI_VictorSPX intakeRight;
-    private static Solenoid H;
+    private static Solenoid H, HR;
 
     public Robot_Intake() {
         intakeLeft = RobotMap.intakeLeft;
         intakeRight = RobotMap.intakeRight;
         H = RobotMap.cylinderH;
+        HR = RobotMap.cylinderHR;
     }
 
     @Override
@@ -54,7 +55,7 @@ public class Robot_Intake extends Subsystem {
 
     public void Control_H(boolean value){
         H.set(value);
-        RobotMap.cylinderHR.set(!value);
+        HR.set(!value);
         
         /*if(statepiston==1) {
             H.set(true);
@@ -70,6 +71,20 @@ public class Robot_Intake extends Subsystem {
     public void Push_Hatch(boolean value){
         RobotMap.pushHatch.set(value);
     }
+
+    public void H_Out(){
+        H.set(true);
+        HR.set(false);
+    }
+
+    public void H_In(){
+        H.set(false);
+        HR.set(true);
+    }
+    public void H_Stop(){
+        H.set(false);
+        HR.set(false);
+}
     /*
     public void Close_H(){
 		H.set(true);

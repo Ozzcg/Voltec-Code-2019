@@ -16,8 +16,10 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc6647.Voltres.commands.*;
+import edu.wpi.first.wpilibj.GenericHID;
 
 //import org.usfirst.frc6647.Voltres.commands.HatchHigh;
 //import org.usfirst.frc6647.Voltres.commands.HatchLow;
@@ -46,10 +48,20 @@ public class Robot extends TimedRobot {
 	public static Robot_Intake intake;
 	public static Robot_TilTake tilTake;
 	public static Robot_Drive robotDrive;
+	public static Robot_Climb robotClimb;
 	public static Robot_Control control;
 	public static LiftWithPID liftWithPID;
-	public static Vision vision;
 	public JoystickButton Button2;
+	public JoystickButton Button3;
+	public JoystickButton Button7;
+	public JoystickButton Button8;
+	public JoystickButton Button14;
+
+	public Button dPadUp;
+	public Button dPadDown;
+	public Button dPadLeft;
+	public Button dPadRight;
+
 	public Joystick joystick1;
 
 	// public static HatchLow hatchLow;
@@ -73,6 +85,7 @@ public class Robot extends TimedRobot {
 		robotDrive = new Robot_Drive();
 		control = new Robot_Control();
 		liftWithPID = new LiftWithPID();
+		robotClimb = new Robot_Climb();
 		/* vision = new Vision(); */
 
 		/*
@@ -125,11 +138,22 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		autonomousCommand = chooser.getSelected();
+		RobotMap.NAVX.zeroYaw();
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
 		joystick1 = new Joystick(0);
 		Button2 = new JoystickButton(joystick1, 1);
+		Button3 = new JoystickButton(joystick1, 2);
+
+		////////////PROBAR PRIMERO OTRO BOTON///////////
+
+		/*
+		Button14 = new JoystickButton(joystick1, 13);
+		Button7 = new JoystickButton(joystick1, 6);
+		Button8 = new JoystickButton(joystick1, 7);
+		*/
+
 	}
 
 	/**
@@ -140,6 +164,8 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 		robotDrive.Main_Drive();
 
+		////////////////THIS WORKS////////////////////////
+
 		if (oi.sButton6.get()) {
 			liftWithPID.Lift_Up();
 		} else {
@@ -149,10 +175,44 @@ public class Robot extends TimedRobot {
 				liftWithPID.Stop_Lift();
 			}
 		}
+
 		tilTake.Tilt_Up();
 		// tilTake.Tilt_Down();
 
-		Button2.whileHeld(new LatchH());
+		Button2.toggleWhenPressed(new LatchH());
+		oi.Button3.whenPressed(new PushHatch());
+
+		/////////////MAYBE WILL WORK//////////////
+
+		/*
+		oi.sButton6.whileHeld(new HatchHigh());
+		oi.sButton1.whileHeld(new HatchLow());
+		oi.sButton3.whileHeld(new HatchMid());
+		oi.sButton2.whileHeld(new GetBallFloor());
+		oi.sButton4.whileHeld(new BallMid());
+		oi.sButton6.whileHeld(new HatchHigh());
+		oi.sButton5.whileHeld(new LiftDownManual());
+		oi.sButton13.whileHeld(new Reset_Encoders());
+		*/
+
+		/////////////Experimental//////////////////
+
+		/*
+		dPadUp = oi.buttonFromPOV(joystick1, 0);
+		dPadDown = oi.buttonFromPOV(joystick1, 180);
+		*/
+
+		//////////////////Poner los oi si lo de arriba funciona y agregar//////////////
+
+		/*
+		Button14.whileHeld(new GyroAlign());
+		Button7.whileHeld(new Slide(true));
+		Button8.whileHeld(new Slide(false));
+
+		dPadUp.whileHeld(new GyroAlign());
+		dPadDown.whileHeld(new GyroAlign());
+		*/
+
 	}
 
 	@Override
@@ -163,21 +223,37 @@ public class Robot extends TimedRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
+
+		robotDrive.setPIDValues();
 		/*
 		 * SmartDashboard.putNumber("Kp", RobotMap.liftP);
 		 * SmartDashboard.putNumber("Ki", RobotMap.liftI);
 		 * SmartDashboard.putNumber("Kd", RobotMap.liftD);
 		 */
-		RobotMap.NAVX.zeroYaw();
-
+		
 		/* SmartDashboard.putNumber("visionP", RobotMap.visionP);
 		SmartDashboard.putNumber("visionI", RobotMap.visionI);
 		SmartDashboard.putNumber("visionD", RobotMap.visionD);
 		SmartDashboard.putNumber("visionOffset", RobotMap.visionOffset); */
 
+		
 		SmartDashboard.putNumber("gyroP", RobotMap.gyroP);
 		SmartDashboard.putNumber("gyroI", RobotMap.gyroI);
 		SmartDashboard.putNumber("gyroD", RobotMap.gyroD);
+		
+		
+/*
+		SmartDashboard.putNumber("FrontClimbSpeed", -0.8);
+		SmartDashboard.putNumber("FrontSlideSpeed", -0.6);
+		SmartDashboard.putNumber("FrontReturn", 0.6);
+		SmartDashboard.putNumber("FrontHold", -0.8);
+
+		SmartDashboard.putNumber("BackClimbSpeed", -0.85);
+		SmartDashboard.putNumber("BackSlideSpeed", -0.6);
+		SmartDashboard.putNumber("BackReturn", 0.6);
+		SmartDashboard.putNumber("BackHold", -0.75);
+		*/
+		
 	}
 
 	/**
@@ -201,21 +277,14 @@ public class Robot extends TimedRobot {
 		RobotMap.visionOffset = SmartDashboard.getNumber("visionOffset", RobotMap.visionOffset);
 		vision.run(); */
 
-		if (oi.joystick2.getRawAxis(3) > 0.2) {
-			tilTake.Tilt_Up();
-		} else {
-			if (oi.joystick2.getRawAxis(2) > 0.2) {
-				tilTake.Tilt_Down();
-			} else {
-				tilTake.Tilt_Down();
-			}
-
-		}
-
+		
+		
 		RobotMap.gyroP = SmartDashboard.getNumber("gyroP", RobotMap.gyroP);
 		RobotMap.gyroI = SmartDashboard.getNumber("gyroI", RobotMap.gyroI);
 		RobotMap.gyroD = SmartDashboard.getNumber("gyroD", RobotMap.gyroD);
-		robotDrive.setPIDValues();
+		
+		
+		
 
 	}
 }

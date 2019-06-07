@@ -46,9 +46,11 @@ public class RobotMap{
     private static final int VICTOR_LIFT_MOTOR_FOLLOWER_PORT = 10;      //LIFT VICTOR FOLLOWER
     ////Talons en Chasis de prueba////
 
-
-
     private static final int VICTOR_TILTAKE_PORT = 12;                   //TILTAKE VICTOR
+
+    public static final int CLIMB_FRONT_TALON_PORT = 13;                //ESCALADOR FRONT
+    public static final int CLIMB_BACK_LEFT_TALON_PORT = 14;            //ESCALADOR BACK
+    public static final int CLIMB_WHEELS_TALON_PORT = 15;               //ESCALADOR DOWN WHEELS
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 
@@ -90,15 +92,16 @@ public class RobotMap{
 	
     ////////////////////////////////////SEÑALES DE LA PCM////////////////////////////////////
 
-    private static final int SOL_FORWARD_H_PORT = 3;                   //H LEFT PISTON FORWARD
+    private static final int SOL_FORWARD_H_PORT = 3;                   
     private static final int SOL_REVERSE_H_PORT = 2;
-    private static final int SOL_PUSH_HATCH = 1;                   //H LEFT PISTON REVERSE
+    private static final int SOL_PUSH_HATCH = 1;                   
 
-
+    /*
 	private static final int SOL_FORWARD_FRONTCYLINDER_PORT = 4;              //FRONT PISTON FORWARD
 	private static final int SOL_REVERSE_FRONTCYLINDER_PORT = 5;              //FRONT PISTON REVERSE
 	private static final int SOL_FORWARD_BACKCYLINDER_PORT = 6;              //BACK PISTON FORWARD
     private static final int SOL_REVERSE_BACKCYLINDER_PORT = 7;              //BACK PISTON REVERSE
+    */
     
 	//////////////////////////////////////////////////////////////////////////////////////////
 
@@ -187,24 +190,32 @@ public class RobotMap{
     public static double intakeI = 0.3;
     public static double intakeD = 0.22;
 
-    public static double gyroP = 0.009; // Hay que ajustar.
-	public static double gyroI = 0.00003;
-	public static double gyroD = 0.009;
+    public static double gyroP = 0.02; // Hay que ajustar.
+	public static double gyroI = 0.0000025;
+	public static double gyroD = 0.0025;
     //////////////////////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////ELEVATOR VALUES////////////////////////////////////////
-    public static final int hatchLv1 = 27000;
-    public static final int hatchLv2 = 201000;
-    public static final int hatchLv3 = 380000;
-    public static final int floorlevel = 400000;
 
-    public static final int ballfloor = 145000;
-    public static final int ballLevel2 = 235000;
+    //Usados
 
-    public static final int cargoLv1 = 89000;
-    public static final int cargoLv2 = 165000;
-    public static final int cargoLv3 = 350000;
-    public static final int cargoship = 160000;
+    public static final int hatchLv1 = 20000;
+
+    //Cambiar
+    public static final int hatchLv2 = 230000;
+    public static final int hatchLv3 = 350000;
+
+    public static final int ballLevel1 = 235000;
+    /////////////
+
+    public static final int ballfloor = 135000;
+
+    public static final int ballLevel2 = 260000;
+    public static final int ballLevel3 = 385000;
+
+    public static final int cargoship = 310000;
+    
+    //Tiltake Values
 
     //////////////////////////////////////////////////////////////////////////////////////////
 
@@ -213,15 +224,9 @@ public class RobotMap{
     public static double visionD = 0;
     public static double visionOffset = 3;
 
-    public static final int CLIMB_FRONT_TALON_PORT = 0;
-    public static final int CLIMB_BACK_LEFT_TALON_PORT = 0;
-    public static final int CLIMB_BACK_RIGHT_TALON_PORT = 0;
-    public static final int CLIMB_WHEELS_TALON_PORT = 0;
-
-    public static WPI_TalonSRX climbFront;
-    public static WPI_TalonSRX climbBackLeft;
-    public static WPI_TalonSRX climbBackRight;
-    public static WPI_TalonSRX climbWheels;
+    public static WPI_VictorSPX climbFront;
+    public static WPI_VictorSPX climbBackLeft;
+    public static WPI_VictorSPX climbWheels;
 
     public static void init(){
     
@@ -253,7 +258,7 @@ public class RobotMap{
         backLeft.setNeutralMode(NeutralMode.Coast);
         backRight.setNeutralMode(NeutralMode.Coast);
 
-        hWheel.setInverted(true);
+        hWheel.setInverted(false);
 
         //cylinderWheels.setInverted(false);
         ////
@@ -336,8 +341,9 @@ public class RobotMap{
         cylinderHR = new Solenoid(SOL_REVERSE_H_PORT);
         pushHatch = new Solenoid(SOL_PUSH_HATCH);
 
+        pushHatch.set(false);
         cylinderH.set(false);
-        cylinderHR.set(true);
+        cylinderHR.set(false);
         
         //////////////////////////////////////////////////////////////////////////////////////////
         
@@ -388,10 +394,9 @@ public class RobotMap{
         
         //////////////////////////////////////////////////////////////////////////////////////////
 
-        climbFront = new WPI_TalonSRX(CLIMB_FRONT_TALON_PORT);
-        climbBackLeft = new WPI_TalonSRX(CLIMB_BACK_LEFT_TALON_PORT);
-        climbBackRight = new WPI_TalonSRX(CLIMB_BACK_RIGHT_TALON_PORT);
-        climbWheels = new WPI_TalonSRX(CLIMB_WHEELS_TALON_PORT);
+        climbFront = new WPI_VictorSPX(CLIMB_FRONT_TALON_PORT);
+        climbBackLeft = new WPI_VictorSPX(CLIMB_BACK_LEFT_TALON_PORT);
+        climbWheels = new WPI_VictorSPX(CLIMB_WHEELS_TALON_PORT);
 
         climbFront.configClosedloopRamp(RAMPDRIVE, 0);
         climbFront.configOpenloopRamp(RAMPDRIVE, 0);
@@ -399,19 +404,14 @@ public class RobotMap{
         climbBackLeft.configClosedloopRamp(RAMPDRIVE, 0);
         climbBackLeft.configOpenloopRamp(RAMPDRIVE, 0);
 
-        climbBackRight.configClosedloopRamp(RAMPDRIVE, 0);
-        climbBackRight.configOpenloopRamp(RAMPDRIVE, 0);
-
         climbWheels.configClosedloopRamp(RAMPDRIVE, 0);
         climbWheels.configOpenloopRamp(RAMPDRIVE, 0);
 
         climbFront.setNeutralMode(NeutralMode.Brake);
         climbBackLeft.setNeutralMode(NeutralMode.Brake);
-        climbBackRight.setNeutralMode(NeutralMode.Brake);
         climbWheels.setNeutralMode(NeutralMode.Coast);
 
         climbFront.set(ControlMode.PercentOutput, 0);
         climbBackLeft.set(ControlMode.PercentOutput, 0);
-        climbBackRight.follow(climbBackLeft);
     }
 }

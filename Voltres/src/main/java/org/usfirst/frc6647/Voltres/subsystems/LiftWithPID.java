@@ -76,7 +76,7 @@ public void Lift_Down(){
     if (!downlimit.get()){
       liftMain.set(ControlMode.PercentOutput, 0);
     }else{
-      liftMain.set(ControlMode.PercentOutput, lift_down_speed*direction2);
+      liftMain.set(ControlMode.PercentOutput, 0.3*direction2);
     }
 }
 

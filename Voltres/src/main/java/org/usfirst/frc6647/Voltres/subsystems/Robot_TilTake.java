@@ -55,12 +55,12 @@ public class Robot_TilTake extends PIDSubsystem {
 
     public void Tilt_Up(){
         //tilTake.set(ControlMode.PercentOutput, tilt_up_speed*direction1);
-        tilTake.set(ControlMode.PercentOutput, Robot.oi.joystick2.getRawAxis(3)*direction1*0.8);
+        tilTake.set(ControlMode.PercentOutput, ((Robot.oi.joystick2.getRawAxis(4) + 1) * 0.5) * ((Robot.oi.joystick2.getRawAxis(4) + 1) * 0.5) * direction1 * 0.8);
     }
 
     public void Tilt_Down(){
         //tilTake.set(ControlMode.PercentOutput, tilt_down_speed*direction2);
-        tilTake.set(ControlMode.PercentOutput, Robot.oi.joystick2.getRawAxis(2)*direction2*0.6);
+        tilTake.set(ControlMode.PercentOutput, ((Robot.oi.joystick2.getRawAxis(3) + 1) * 0.5) * ((Robot.oi.joystick2.getRawAxis(3) + 1) * 0.5) * direction2 * 0.6);
     }
 
     @Override

@@ -85,6 +85,8 @@ public class Robot_Drive extends PIDSubsystem {
         double LeftStickY = mapDoubleT(Robot.oi.joystick1.getRawAxis(1), TOLERANCE, 1, 0, 1) * direction,
                 RightStickY = mapDoubleT(Robot.oi.joystick1.getRawAxis(5), TOLERANCE, 1, 0, 1) * direction;
 
+        /////////////MODIFICAR ESTO SI SE QUITA EK GYRO DEL SHUFFLEBOARD///////////////////////////
+
         if (Robot.oi.joystick1.getPOV() == -1 && SmartDashboard.getBoolean("Gyro", false) == false) {
             lefTalon.set(ControlMode.PercentOutput, LeftStickY * LIMITER);
             righTalon.set(ControlMode.PercentOutput, RightStickY * LIMITER);
@@ -132,6 +134,8 @@ public class Robot_Drive extends PIDSubsystem {
         righTalon.set(ControlMode.PercentOutput, 0.0);
     }
 
+    //Velocidad Cambiada, sin aceleracion
+
     public void change_LimiterUP() {
         LIMITER = 0.75;
         padLIMITER = 0.9;
@@ -155,16 +159,18 @@ public class Robot_Drive extends PIDSubsystem {
 
         SmartDashboard.putNumber("PIDOutput", output);
 
+        //Cambiar Valores de PID Dependiendo de si se esta moviendo o no por PAD, subir velocidad maxima (0.5 a 0.8ish), si se sube, reducir factor de aceleracion (hacer que acelere más)
+
         int angle = Robot.oi.joystick1.getPOV();
         if (angle == 0) {
-            lefTalon.set(ControlMode.PercentOutput, (-0.5 - (acceleration * accelerationMultiplier)) * padLIMITER + output);
-            righTalon.set(ControlMode.PercentOutput, (-0.5 - (acceleration * accelerationMultiplier)) * padLIMITER - output);
+            lefTalon.set(ControlMode.PercentOutput, (-0.5 - (acceleration * accelerationMultiplier)) * padLIMITER - output);
+            righTalon.set(ControlMode.PercentOutput, (-0.45 - (acceleration * accelerationMultiplier)) * padLIMITER + output);
         } else if (angle == 180) {
-            lefTalon.set(ControlMode.PercentOutput, (0.5 + (acceleration * accelerationMultiplier)) * padLIMITER + output);
-            righTalon.set(ControlMode.PercentOutput, (0.5 + (acceleration * accelerationMultiplier)) * padLIMITER - output);
+            lefTalon.set(ControlMode.PercentOutput, (0.5 + (acceleration * accelerationMultiplier)) * padLIMITER - output);
+            righTalon.set(ControlMode.PercentOutput, (0.45 + (acceleration * accelerationMultiplier)) * padLIMITER + output);
         } else {
-            lefTalon.set(ControlMode.PercentOutput, output);
-            righTalon.set(ControlMode.PercentOutput, -output);
+            lefTalon.set(ControlMode.PercentOutput, -output);
+            righTalon.set(ControlMode.PercentOutput, output);
         }
 
     }
